@@ -5,7 +5,7 @@ authors = ["Téo Biton"]
 edition = "2021"
 description = "GitHub issues parser and exporter from JSON to xls"
 readme = "README.md"
-repository = ""
+repository = "https://github.com/teobiton/issue-tracking"
 licence = "Apache-2.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
