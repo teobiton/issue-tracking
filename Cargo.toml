@@ -1,8 +1,15 @@
 [package]
 name = "issue-parser"
 version = "0.1.0"
+authors = ["Téo Biton"]
 edition = "2021"
+description = "GitHub issues parser and exporter from JSON to xls"
+readme = "README.md"
+repository = ""
+licence = "Apache-2.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+exitfailure = "0.5.1"
+assert_cmd = "1.0.1"
