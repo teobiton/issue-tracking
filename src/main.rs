@@ -3,6 +3,12 @@ use std::process;
 use structopt::StructOpt;
 use exitfailure::ExitFailure;
 
+/* 
+    Main thread of the application.
+    Arguments are processed here and external functions
+    are called to build the output.
+*/
+
 #[derive(StructOpt)]
 #[structopt(name = "GitHub issues parser",
             about = "GitHub issues parser and exporter from JSON to csv"
