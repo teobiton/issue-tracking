@@ -34,3 +34,15 @@ fn run_with_non_existing_file() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+#[test]
+fn run_with_wrong_extension_file() -> Result<(), Box<dyn std::error::Error>> {
+    Command::cargo_bin("issue-parser")
+        .expect("binary exists")
+        .args(&["README.md"])
+        .assert()
+        .stderr(predicate::str::contains("'README.md' is not a json file!"))
+        .failure();
+
+    Ok(())
+}

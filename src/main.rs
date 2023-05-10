@@ -28,6 +28,18 @@ struct Args {
     json: String,
 }
 
+fn is_json_file_ok(json: &Path) -> i8 {
+    if !json.exists() {
+        return 1;
+    }
+
+    if json.extension().and_then(|ext| ext.to_str()) != Some("json") {
+        return 2;
+    }
+
+    0
+}
+
 fn main() -> Result<(), ExitFailure> {
     println!("Retrieving arguments ... ");
 
@@ -35,10 +47,17 @@ fn main() -> Result<(), ExitFailure> {
 
     let json_file = Path::new(&args.json);
 
-    if !json_file.exists() {
-        eprintln!("'{}' does not exist!", &args.json);
-        process::exit(1);
-    }
+    match is_json_file_ok(&json_file) {
+        1 => {
+            eprintln!("'{}' does not exist!", &args.json);
+            process::exit(1);
+        }
+        2 => {
+            eprintln!("'{}' is not a json file!", &args.json);
+            process::exit(1);
+        }
+        _ => {}
+    };
 
     // Debug
     println!("JSON input: {}", json_file.display());
