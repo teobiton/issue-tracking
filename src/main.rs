@@ -65,10 +65,12 @@ fn main() -> Result<(), ExitFailure> {
     };
 
     let repository_issues: Repository = parse_json_input(&json_file);
-  
+
     match build_csv(repository_issues.issues, "filename") {
-        Ok(()) => {},
-        Err(_) => {eprintln!("Could not build csv.")}
+        Ok(()) => {}
+        Err(_) => {
+            eprintln!("Could not build csv.")
+        }
     }
 
     Ok(())

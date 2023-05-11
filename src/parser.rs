@@ -1,6 +1,6 @@
+use serde_derive::{Deserialize, Serialize};
 use std::path::Path;
 use std::process;
-use serde_derive::{Deserialize, Serialize};
 
 /*
     Functions to process the json input.
@@ -55,7 +55,10 @@ pub fn parse_json_input(json_file: &Path) -> Repository {
     let text = std::fs::read_to_string(&json_file).unwrap();
 
     if !has_github_issues(&text) {
-        eprintln!("'{}' does not seem to contain GitHub issues.", &json_file.display());
+        eprintln!(
+            "'{}' does not seem to contain GitHub issues.",
+            &json_file.display()
+        );
         process::exit(1);
     }
     // Parse the string into a static JSON structure
@@ -64,12 +67,14 @@ pub fn parse_json_input(json_file: &Path) -> Repository {
 
 #[test]
 fn parse_correct_json() {
-    
     let json_file = Path::new("tests/doc/cocotb-cocotb_issues.json");
 
     let repository = parse_json_input(&json_file);
 
     assert_eq!(repository.issues.len(), 1545);
-    assert_eq!(repository.issues[0].title, "SIM_ROOT requires setting prior to make");
+    assert_eq!(
+        repository.issues[0].title,
+        "SIM_ROOT requires setting prior to make"
+    );
     assert_eq!(repository.issues[53].state, "closed");
 }
