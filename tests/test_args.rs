@@ -7,7 +7,7 @@ use std::process::Command;
    depending on arguments passed as input.
 */
 
-const JSON_FILE: &str = "docs/json/cocotb-cocotb_issues.json";
+const JSON_FILE: &str = "tests/doc/cocotb-cocotb_issues.json";
 
 #[test]
 fn run_with_existing_file() -> Result<(), Box<dyn std::error::Error>> {
