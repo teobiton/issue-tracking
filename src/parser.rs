@@ -61,3 +61,15 @@ pub fn parse_json_input(json_file: &Path) -> Repository {
     // Parse the string into a static JSON structure
     serde_json::from_str::<Repository>(&text).unwrap()
 }
+
+#[test]
+fn parse_correct_json() {
+    
+    let json_file = Path::new("tests/doc/cocotb-cocotb_issues.json");
+
+    let repository = parse_json_input(&json_file);
+
+    assert_eq!(repository.issues.len(), 1545);
+    assert_eq!(repository.issues[0].title, "SIM_ROOT requires setting prior to make");
+    assert_eq!(repository.issues[53].state, "closed");
+}
