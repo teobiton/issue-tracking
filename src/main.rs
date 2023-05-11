@@ -3,9 +3,10 @@ use std::path::Path;
 use std::process;
 use structopt::StructOpt;
 
-mod parser;
-use parser::parse_json_input;
-use parser::Repository;
+use issue_parser::parser::*;
+
+mod writer;
+use writer::build_csv;
 
 /*
     Main thread of the application.
@@ -64,6 +65,11 @@ fn main() -> Result<(), ExitFailure> {
     };
 
     let repository_issues: Repository = parse_json_input(&json_file);
-    
+  
+    match build_csv(repository_issues.issues, "filename") {
+        Ok(()) => {},
+        Err(_) => {eprintln!("Could not build csv.")}
+    }
+
     Ok(())
 }
