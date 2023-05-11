@@ -7,15 +7,16 @@ use std::process::Command;
    depending on arguments passed as input.
 */
 
-const JSON_FILE: &str = "tests/doc/cocotb-cocotb_issues.json";
+const CORRECT_JSON: &str = "tests/doc/cocotb-cocotb_issues.json";
+const WRONG_JSON: &str = "tests/doc/bogus.json";
 
 #[test]
 fn run_with_existing_file() -> Result<(), Box<dyn std::error::Error>> {
     Command::cargo_bin("issue-parser")
         .expect("binary exists")
-        .args(&[JSON_FILE])
+        .args(&[CORRECT_JSON])
         .assert()
-        .stdout(predicate::str::contains(JSON_FILE))
+        .stdout(predicate::str::contains(CORRECT_JSON))
         .success();
 
     Ok(())
@@ -42,6 +43,20 @@ fn run_with_wrong_extension_file() -> Result<(), Box<dyn std::error::Error>> {
         .args(&["README.md"])
         .assert()
         .stderr(predicate::str::contains("'README.md' is not a json file!"))
+        .failure();
+
+    Ok(())
+}
+
+#[test]
+fn run_with_wrong_json_file() -> Result<(), Box<dyn std::error::Error>> {
+    Command::cargo_bin("issue-parser")
+        .expect("binary exists")
+        .args(&[WRONG_JSON])
+        .assert()
+        .stderr(predicate::str::contains(
+            "'tests/doc/bogus.json' does not seem to contain GitHub issues.",
+        ))
         .failure();
 
     Ok(())
