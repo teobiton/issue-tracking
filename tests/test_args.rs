@@ -16,7 +16,6 @@ fn run_with_existing_file() -> Result<(), Box<dyn std::error::Error>> {
         .expect("binary exists")
         .args(&[CORRECT_JSON])
         .assert()
-        .stdout(predicate::str::contains(CORRECT_JSON))
         .success();
 
     Ok(())

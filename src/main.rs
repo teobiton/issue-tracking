@@ -64,15 +64,6 @@ fn main() -> Result<(), ExitFailure> {
     };
 
     let repository_issues: Repository = parse_json_input(&json_file);
-
-    // Debug
-    println!("JSON input: {}", json_file.display());
-    println!("Output file: {}", &args.output);
-    println!("Test issue name: {}", &repository_issues.issues[0].title);
-    println!(
-        "Test issue date: {}",
-        &repository_issues.issues[0].created_at
-    );
     
     Ok(())
 }
