@@ -3,10 +3,10 @@ use std::path::Path;
 use std::process;
 use structopt::StructOpt;
 
-use issue_parser::parser::*;
-
-mod writer;
-use writer::build_csv;
+use issue_parser::parser::parse_json_input;
+use issue_parser::parser::Repository;
+use issue_parser::writer::build_csv;
+use issue_parser::writer::CSV_EXT;
 
 /*
     Main thread of the application.
@@ -46,8 +46,6 @@ fn is_json_file_ok(filepath: &Path) -> i8 {
 }
 
 fn main() -> Result<(), ExitFailure> {
-    println!("Retrieving arguments ... ");
-
     let args = Args::from_args();
 
     let json_file = Path::new(&args.json);
@@ -67,9 +65,12 @@ fn main() -> Result<(), ExitFailure> {
     let repository_issues: Repository = parse_json_input(&json_file);
 
     match build_csv(repository_issues.issues, "filename") {
-        Ok(()) => {}
-        Err(_) => {
-            eprintln!("Could not build csv.")
+        Ok(()) => {
+            println!("Built filename{} from {}.", CSV_EXT, &args.json);
+        }
+        Err(e) => {
+            eprintln!("Could not build csv: {:#?}", e);
+            process::exit(1);
         }
     }
 

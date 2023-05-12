@@ -1,20 +1,33 @@
+use csv::Writer;
 use exitfailure::ExitFailure;
 use std::fs;
-use std::io::Write;
 
-use issue_parser::parser::Issue;
+use crate::parser::Issue;
 
 /*
     From packed stuctures, write the serialized data into a csv file.
 */
 
-const CSV_HEADER: &[u8] = b"\"ID\", \"Created at\", \"Last update\", \"Status\", \"Comment\"\n";
-const CSV_EXT: &str = ".csv";
+const CSV_HEADER: [&str; 5] = ["ID", "Created at", "Last update", "Status", "Comment"];
+pub const CSV_EXT: &str = ".csv";
 
 pub fn build_csv(issues: Vec<Issue>, filename: &str) -> Result<(), ExitFailure> {
-    fs::create_dir("out")?;
-    let mut file = fs::File::create("out/".to_owned() + filename + CSV_EXT)?;
-    file.write_all(CSV_HEADER)?;
+    fs::create_dir_all("out")?;
+
+    let mut wtr = Writer::from_path("out/".to_owned() + filename + CSV_EXT)?;
+    wtr.write_record(&CSV_HEADER)?;
+
+    for issue in issues {
+        wtr.write_record(&[
+            issue.number.to_string(),
+            issue.created_at,
+            issue.updated_at,
+            issue.state,
+            issue.title,
+        ])?;
+    }
+
+    wtr.flush()?;
 
     Ok(())
 }

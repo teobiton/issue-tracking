@@ -42,7 +42,6 @@ fn has_github_issues(text: &str) -> bool {
 
     for field in fields {
         if !text.contains(field) {
-            println!("{}", field);
             return false;
         }
     }
