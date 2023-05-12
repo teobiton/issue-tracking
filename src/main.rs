@@ -64,9 +64,13 @@ fn main() -> Result<(), ExitFailure> {
 
     let repository_issues: Repository = parse_json_input(&json_file);
 
-    match build_csv(repository_issues.issues, "filename") {
+    let mut filename: &str = "filename";
+
+    if args.output != "" {filename = &args.output;}
+
+    match build_csv(repository_issues.issues, &filename) {
         Ok(()) => {
-            println!("Built filename{} from {}.", CSV_EXT, &args.json);
+            println!("Built {}{} from {}.", filename, CSV_EXT, &args.json);
         }
         Err(e) => {
             eprintln!("Could not build csv: {:#?}", e);
