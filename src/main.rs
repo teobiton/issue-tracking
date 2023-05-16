@@ -45,34 +45,34 @@ fn is_json_file_ok(filepath: &Path) -> i8 {
     0
 }
 
-fn main() -> Result<(), ExitFailure> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Args::from_args();
 
     let json_file = Path::new(&args.json);
 
     match is_json_file_ok(&json_file) {
         1 => {
-            eprintln!("'{}' does not exist!", &args.json);
-            process::exit(1);
+            return Err(format!("'{}' does not exist!", &args.json).into());
         }
         2 => {
-            eprintln!("'{}' is not a json file!", &args.json);
-            process::exit(1);
+            return Err(format!("'{}' is not a json file!", &args.json).into());
         }
         _ => {}
     };
 
     let repository_issues: Repository = parse_json_input(&json_file);
 
-    let filename: String = build_output_file(String::from(&args.output));
+    let filename: String = match build_output_file(String::from(&args.output)) {
+        Ok(file) => file,
+        Err(error) => return Err(error.into()),
+    };
 
     match build_csv(repository_issues.issues, &filename) {
         Ok(()) => {
             println!("Built {} from {}.", &filename, &args.json);
         }
         Err(e) => {
-            eprintln!("Could not build csv: {:#?}", e);
-            process::exit(1);
+            return Err(format!("Could not build csv: {:#?}", e).into());
         }
     }
 

@@ -12,7 +12,6 @@ const CSV_HEADER: [&str; 5] = ["ID", "Created at", "Last update", "Status", "Com
 pub const CSV_EXT: &str = ".csv";
 
 fn is_output_ok(filename: &str) -> bool {
-    
     for part in filename.split(".") {
         if !part.chars().all(char::is_alphanumeric) {
             return false;
@@ -22,25 +21,24 @@ fn is_output_ok(filename: &str) -> bool {
     true
 }
 
-pub fn build_output_file(filename: String) -> String {
+pub fn build_output_file(filename: String) -> Result<String, Box<dyn std::error::Error>> {
     let extensions: [&str; 7] = [".txt", ".csv", ".text", ".dat", ".log", ".xls", ".xlsx"];
 
     if filename == "" {
-        return String::from("out.csv");
+        return Ok(String::from("out.csv"));
     }
 
     if !is_output_ok(&filename) {
-        eprintln!("{}: filename contains special characters.", &filename);
-        process::exit(1);
+        return Err(format!("{}: filename contains special characters.", &filename).into());
     }
 
     for ext in extensions {
         if filename.contains(ext) {
-            return filename;
+            return Ok(filename);
         }
     }
 
-    String::from(filename.to_owned() + CSV_EXT)
+    Ok(String::from(filename.to_owned() + CSV_EXT))
 }
 
 pub fn build_csv(issues: Vec<Issue>, filename: &str) -> Result<(), ExitFailure> {
@@ -64,7 +62,6 @@ pub fn build_csv(issues: Vec<Issue>, filename: &str) -> Result<(), ExitFailure> 
 
 #[test]
 fn test_correct_output_files() -> Result<(), Box<dyn std::error::Error>> {
-    
     let filenames: [&str; 3] = ["out", "out.log", "out.csv"];
 
     for filename in filenames {
@@ -76,7 +73,6 @@ fn test_correct_output_files() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn test_wrong_output_files() -> Result<(), Box<dyn std::error::Error>> {
-    
     let filenames: [&str; 3] = ["out;", "#out", "out/out"];
 
     for filename in filenames {
