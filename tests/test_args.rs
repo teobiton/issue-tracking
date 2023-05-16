@@ -1,6 +1,7 @@
 use assert_cmd::prelude::*;
 use predicates::prelude::*;
 use std::process::Command;
+use std::path::Path;
 
 /*
    These tests are used to check the application's behavior
@@ -9,6 +10,7 @@ use std::process::Command;
 
 const CORRECT_JSON: &str = "tests/doc/cocotb-cocotb_issues.json";
 const WRONG_JSON: &str = "tests/doc/bogus.json";
+const OUTPUT_ARG: &str = "--output=csvfile";
 
 #[test]
 fn run_with_existing_file() -> Result<(), Box<dyn std::error::Error>> {
@@ -57,6 +59,22 @@ fn run_with_wrong_json_file() -> Result<(), Box<dyn std::error::Error>> {
             "'tests/doc/bogus.json' does not seem to contain GitHub issues.",
         ))
         .failure();
+
+    Ok(())
+}
+
+
+#[test]
+fn run_with_output() -> Result<(), Box<dyn std::error::Error>> {
+    Command::cargo_bin("issue-parser")
+        .expect("binary exists")
+        .args(&[CORRECT_JSON, OUTPUT_ARG])
+        .assert()
+        .success();
+    
+    let output = Path::new(&"out/csvfile.csv");
+    
+    if !output.exists() {panic!();}
 
     Ok(())
 }
