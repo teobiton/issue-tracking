@@ -1,6 +1,4 @@
-use exitfailure::ExitFailure;
 use std::path::Path;
-use std::process;
 use structopt::StructOpt;
 
 use issue_parser::parser::parse_json_input;

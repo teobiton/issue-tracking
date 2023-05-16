@@ -1,6 +1,5 @@
 use csv::Writer;
 use exitfailure::ExitFailure;
-use std::process;
 
 use crate::parser::Issue;
 
