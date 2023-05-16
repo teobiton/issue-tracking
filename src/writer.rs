@@ -1,6 +1,6 @@
 use csv::Writer;
 use exitfailure::ExitFailure;
-use std::fs;
+use std::process;
 
 use crate::parser::Issue;
 
@@ -11,10 +11,40 @@ use crate::parser::Issue;
 const CSV_HEADER: [&str; 5] = ["ID", "Created at", "Last update", "Status", "Comment"];
 pub const CSV_EXT: &str = ".csv";
 
-pub fn build_csv(issues: Vec<Issue>, filename: &str) -> Result<(), ExitFailure> {
-    fs::create_dir_all("out")?;
+fn is_output_ok(filename: &str) -> bool {
+    
+    for part in filename.split(".") {
+        if !part.chars().all(char::is_alphanumeric) {
+            return false;
+        }
+    }
 
-    let mut wtr = Writer::from_path("out/".to_owned() + filename + CSV_EXT)?;
+    true
+}
+
+pub fn build_output_file(filename: String) -> String {
+    let extensions: [&str; 7] = [".txt", ".csv", ".text", ".dat", ".log", ".xls", ".xlsx"];
+
+    if filename == "" {
+        return String::from("out.csv");
+    }
+
+    if !is_output_ok(&filename) {
+        eprintln!("{}: filename contains special characters.", &filename);
+        process::exit(1);
+    }
+
+    for ext in extensions {
+        if filename.contains(ext) {
+            return filename;
+        }
+    }
+
+    String::from(filename.to_owned() + CSV_EXT)
+}
+
+pub fn build_csv(issues: Vec<Issue>, filename: &str) -> Result<(), ExitFailure> {
+    let mut wtr = Writer::from_path(filename)?;
     wtr.write_record(&CSV_HEADER)?;
 
     for issue in issues {
@@ -28,6 +58,30 @@ pub fn build_csv(issues: Vec<Issue>, filename: &str) -> Result<(), ExitFailure> 
     }
 
     wtr.flush()?;
+
+    Ok(())
+}
+
+#[test]
+fn test_correct_output_files() -> Result<(), Box<dyn std::error::Error>> {
+    
+    let filenames: [&str; 3] = ["out", "out.log", "out.csv"];
+
+    for filename in filenames {
+        assert_eq!(is_output_ok(filename), true);
+    }
+
+    Ok(())
+}
+
+#[test]
+fn test_wrong_output_files() -> Result<(), Box<dyn std::error::Error>> {
+    
+    let filenames: [&str; 3] = ["out;", "#out", "out/out"];
+
+    for filename in filenames {
+        assert_eq!(is_output_ok(filename), false);
+    }
 
     Ok(())
 }

@@ -1,2 +1,10 @@
 /target
-/out
+
+# Output formats to ignore
+*.csv
+*.log
+*.txt
+*.dat
+*.xls
+*.xlsx
+*.text

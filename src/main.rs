@@ -6,7 +6,7 @@ use structopt::StructOpt;
 use issue_parser::parser::parse_json_input;
 use issue_parser::parser::Repository;
 use issue_parser::writer::build_csv;
-use issue_parser::writer::CSV_EXT;
+use issue_parser::writer::build_output_file;
 
 /*
     Main thread of the application.
@@ -64,13 +64,11 @@ fn main() -> Result<(), ExitFailure> {
 
     let repository_issues: Repository = parse_json_input(&json_file);
 
-    let mut filename: &str = "filename";
-
-    if args.output != "" {filename = &args.output;}
+    let filename: String = build_output_file(String::from(&args.output));
 
     match build_csv(repository_issues.issues, &filename) {
         Ok(()) => {
-            println!("Built {}{} from {}.", filename, CSV_EXT, &args.json);
+            println!("Built {} from {}.", &filename, &args.json);
         }
         Err(e) => {
             eprintln!("Could not build csv: {:#?}", e);
