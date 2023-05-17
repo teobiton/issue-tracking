@@ -1,6 +1,5 @@
 use serde_derive::{Deserialize, Serialize};
 use std::path::Path;
-use std::process;
 
 /*
     Functions to process the json input.
@@ -49,26 +48,31 @@ fn has_github_issues(text: &str) -> bool {
     true
 }
 
-pub fn parse_json_input(json_file: &Path) -> Repository {
+pub fn parse_json_input(json_file: &Path) -> Result<Repository, Box<dyn std::error::Error>> {
     // Load the first file into a string
     let text = std::fs::read_to_string(&json_file).unwrap();
 
     if !has_github_issues(&text) {
-        eprintln!(
+        return Err(format!(
             "'{}' does not seem to contain GitHub issues.",
             &json_file.display()
-        );
-        process::exit(1);
+        )
+        .into());
     }
     // Parse the string into a static JSON structure
-    serde_json::from_str::<Repository>(&text).unwrap()
+    Ok(serde_json::from_str::<Repository>(&text).unwrap())
 }
 
 #[test]
 fn parse_correct_json() {
     let json_file = Path::new("tests/doc/cocotb-cocotb_issues.json");
 
-    let repository = parse_json_input(&json_file);
+    let repository: Repository = match parse_json_input(&json_file) {
+        Ok(repository) => repository,
+        Err(_error) => {
+            panic!("Unexpected error during test.")
+        }
+    };
 
     assert_eq!(repository.issues.len(), 1545);
     assert_eq!(

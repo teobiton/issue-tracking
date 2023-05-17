@@ -12,16 +12,16 @@ use issue_parser::writer::build_output_file;
     Arguments are processed here and external functions are called to build the output.
 */
 
-fn is_json_file_ok(filepath: &Path) -> i8 {
+fn is_json_file_ok(filepath: &Path) -> Result<(), Box<dyn std::error::Error>> {
     if !filepath.exists() {
-        return 1;
+        return Err(format!("'{}' does not exist!", filepath.display()).into());
     }
 
     if filepath.extension().and_then(|ext| ext.to_str()) != Some("json") {
-        return 2;
+        return Err(format!("'{}' is not a json file!", filepath.display()).into());
     }
 
-    0
+    Ok(())
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -30,20 +30,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let json_file = Path::new(&args.json);
 
     match is_json_file_ok(&json_file) {
-        1 => {
-            return Err(format!("'{}' does not exist!", &args.json).into());
-        }
-        2 => {
-            return Err(format!("'{}' is not a json file!", &args.json).into());
-        }
-        _ => {}
+        Err(error) => return Err(error),
+        Ok(()) => {}
     };
 
-    let repository_issues: Repository = parse_json_input(&json_file);
+    let repository_issues: Repository = match parse_json_input(&json_file) {
+        Ok(repository) => repository,
+        Err(error) => return Err(error),
+    };
 
     let filename: String = match build_output_file(String::from(&args.output)) {
         Ok(file) => file,
-        Err(error) => return Err(error.into()),
+        Err(error) => return Err(error),
     };
 
     match build_csv(repository_issues.issues, &filename) {
