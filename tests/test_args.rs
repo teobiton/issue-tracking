@@ -104,3 +104,21 @@ fn run_with_extended_output() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+#[test]
+fn run_with_wrong_outputs() -> Result<(), Box<dyn std::error::Error>> {
+    let filenames: [&str; 3] = ["out;", "#out", "out/out"];
+
+    for filename in filenames {
+        Command::cargo_bin("issue-parser")
+        .expect("binary exists")
+        .args(&[CORRECT_JSON, "-o", filename])
+        .assert()
+        .stderr(predicate::str::contains(
+            filename.to_owned() + ": filename contains special characters.",
+        ))
+        .failure();
+    }
+
+    Ok(())
+}

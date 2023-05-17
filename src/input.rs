@@ -1,4 +1,5 @@
 use structopt::StructOpt;
+use std::path::Path;
 
 /*
     Defines the inputs supported by the application, using StructOpt.
@@ -56,4 +57,22 @@ pub struct Args {
     /// Positional argument
     #[structopt(help = "Required JSON file.")]
     pub json: String,
+}
+
+pub fn check_inputs(filepath: &Path, filename: &str) -> Result<(), Box<dyn std::error::Error>> {
+    if !filepath.exists() {
+        return Err(format!("'{}' does not exist!", filepath.display()).into());
+    }
+
+    if filepath.extension().and_then(|ext| ext.to_str()) != Some("json") {
+        return Err(format!("'{}' is not a json file!", filepath.display()).into());
+    }
+
+    for part in filename.split(".") {
+        if !part.chars().all(char::is_alphanumeric) {
+            return Err(format!("{}: filename contains special characters.", &filename).into());
+        }
+    }
+
+    Ok(())
 }

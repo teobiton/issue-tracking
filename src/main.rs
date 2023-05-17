@@ -1,6 +1,7 @@
 use std::path::Path;
 use structopt::StructOpt;
 
+use issue_parser::input::check_inputs;
 use issue_parser::input::Args;
 use issue_parser::parser::parse_json_input;
 use issue_parser::parser::Repository;
@@ -12,24 +13,12 @@ use issue_parser::writer::build_output_file;
     Arguments are processed here and external functions are called to build the output.
 */
 
-fn is_json_file_ok(filepath: &Path) -> Result<(), Box<dyn std::error::Error>> {
-    if !filepath.exists() {
-        return Err(format!("'{}' does not exist!", filepath.display()).into());
-    }
-
-    if filepath.extension().and_then(|ext| ext.to_str()) != Some("json") {
-        return Err(format!("'{}' is not a json file!", filepath.display()).into());
-    }
-
-    Ok(())
-}
-
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Args::from_args();
 
     let json_file = Path::new(&args.json);
 
-    match is_json_file_ok(&json_file) {
+    match check_inputs(&json_file, &args.output) {
         Err(error) => return Err(error),
         Ok(()) => {}
     };
