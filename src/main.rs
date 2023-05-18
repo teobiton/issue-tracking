@@ -1,6 +1,7 @@
 use std::path::Path;
 use structopt::StructOpt;
 
+use issue_parser::filters::Filters;
 use issue_parser::input::check_inputs;
 use issue_parser::input::Args;
 use issue_parser::parser::parse_json_input;
@@ -33,7 +34,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         Err(error) => return Err(error),
     };
 
-    match build_csv(repository_issues.issues, &filename) {
+    match build_csv(
+        repository_issues.issues,
+        &filename,
+        Filters::from_args(&args),
+    ) {
         Ok(()) => {
             println!("Built {} from {}.", &filename, &args.json);
         }

@@ -23,9 +23,25 @@ pub struct Issue {
     pub closed_at: Option<String>,
 }
 
+impl Issue {
+    pub fn format_date(date: String) -> String {
+        date[..10].to_string()
+    }
+
+    pub fn is_labeled(&self, pattern: &str) -> bool {
+        for label in &self.labels {
+            if label.name == pattern {
+                return true;
+            }
+        }
+
+        false
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Label {
-    name: String,
+    pub name: String,
 }
 
 fn has_github_issues(text: &str) -> bool {

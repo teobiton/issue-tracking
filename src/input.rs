@@ -1,5 +1,5 @@
-use structopt::StructOpt;
 use std::path::Path;
+use structopt::StructOpt;
 
 /*
     Defines the inputs supported by the application, using StructOpt.

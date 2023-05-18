@@ -111,14 +111,27 @@ fn run_with_wrong_outputs() -> Result<(), Box<dyn std::error::Error>> {
 
     for filename in filenames {
         Command::cargo_bin("issue-parser")
-        .expect("binary exists")
-        .args(&[CORRECT_JSON, "-o", filename])
-        .assert()
-        .stderr(predicate::str::contains(
-            filename.to_owned() + ": filename contains special characters.",
-        ))
-        .failure();
+            .expect("binary exists")
+            .args(&[CORRECT_JSON, "-o", filename])
+            .assert()
+            .stderr(predicate::str::contains(
+                filename.to_owned() + ": filename contains special characters.",
+            ))
+            .failure();
     }
+
+    Ok(())
+}
+
+#[test]
+fn run_with_label_filter() -> Result<(), Box<dyn std::error::Error>> {
+    let filename: &str = "filter.csv";
+
+    Command::cargo_bin("issue-parser")
+        .expect("binary exists")
+        .args(&[CORRECT_JSON, "-o", filename, "-l", "type:feature"])
+        .assert()
+        .success();
 
     Ok(())
 }
