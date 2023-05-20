@@ -11,7 +11,7 @@ use crate::parser::Issue;
 const CSV_HEADER: [&str; 5] = ["ID", "Created at", "Last update", "Status", "Comment"];
 const CSV_EXT: &str = ".csv";
 
-pub fn build_output_file(filename: String) -> Result<String, Box<dyn std::error::Error>> {
+pub fn build_output_filename(filename: String) -> Result<String, Box<dyn std::error::Error>> {
     let extensions: [&str; 7] = [".txt", ".csv", ".text", ".dat", ".log", ".xls", ".xlsx"];
 
     // If no filename was specified, always return 'out.csv'
@@ -30,7 +30,7 @@ pub fn build_output_file(filename: String) -> Result<String, Box<dyn std::error:
     Ok(String::from(filename.to_owned() + CSV_EXT))
 }
 
-pub fn build_csv(issues: Vec<Issue>, filename: &str, filters: Filters) -> Result<(), ExitFailure> {
+pub fn write_csv(issues: Vec<Issue>, filename: &str, filters: Filters) -> Result<(), ExitFailure> {
     let mut wtr = Writer::from_path(filename)?;
 
     // The header is always the same

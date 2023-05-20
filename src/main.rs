@@ -6,8 +6,8 @@ use issue_parser::input::check_inputs;
 use issue_parser::input::Args;
 use issue_parser::parser::parse_json_input;
 use issue_parser::parser::Repository;
-use issue_parser::writer::build_csv;
-use issue_parser::writer::build_output_file;
+use issue_parser::writer::build_output_filename;
+use issue_parser::writer::write_csv;
 
 /*
     Main thread of the application.
@@ -36,14 +36,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Build the output file path into which we'll write data
     // Returns if an error occured
-    let filename: String = match build_output_file(String::from(&args.output)) {
+    let filename: String = match build_output_filename(String::from(&args.output)) {
         Ok(file) => file,
         Err(error) => return Err(error),
     };
 
     // Write the csv output file from the repository structure, filename and potentially filters
     // Returns if an error occured
-    match build_csv(
+    match write_csv(
         repository_issues.issues,
         &filename,
         Filters::from_args(&args),
