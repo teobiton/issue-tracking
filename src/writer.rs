@@ -9,29 +9,36 @@ use crate::parser::Issue;
 */
 
 const CSV_HEADER: [&str; 5] = ["ID", "Created at", "Last update", "Status", "Comment"];
-pub const CSV_EXT: &str = ".csv";
+const CSV_EXT: &str = ".csv";
 
 pub fn build_output_file(filename: String) -> Result<String, Box<dyn std::error::Error>> {
     let extensions: [&str; 7] = [".txt", ".csv", ".text", ".dat", ".log", ".xls", ".xlsx"];
 
+    // If no filename was specified, always return 'out.csv'
     if filename == "" {
         return Ok(String::from("out.csv"));
     }
 
+    // If a known extension was specified, we return the filename as is
     for ext in extensions {
         if filename.contains(ext) {
             return Ok(filename);
         }
     }
 
+    // Add the 'csv' extension if the file does not contain one
     Ok(String::from(filename.to_owned() + CSV_EXT))
 }
 
 pub fn build_csv(issues: Vec<Issue>, filename: &str, filters: Filters) -> Result<(), ExitFailure> {
     let mut wtr = Writer::from_path(filename)?;
+
+    // The header is always the same
     wtr.write_record(&CSV_HEADER)?;
 
+    // Parse the array of issues
     for issue in issues {
+        // Only write the issues that are accepted by the filters
         if filters.is_filtered(&issue) {
             wtr.write_record(&[
                 issue.number.to_string(),

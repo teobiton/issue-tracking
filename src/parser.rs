@@ -25,10 +25,12 @@ pub struct Issue {
 
 impl Issue {
     pub fn format_date(date: String) -> String {
+        // Slice the orifinal date to only keep YYYY-MM-DD
         date[..10].to_string()
     }
 
     pub fn is_labeled(&self, pattern: &str) -> bool {
+        // Detect if an issue contains a specified label
         for label in &self.labels {
             if label.name == pattern {
                 return true;
@@ -55,6 +57,7 @@ fn has_github_issues(text: &str) -> bool {
         "\"closed_at\"",
     ];
 
+    // Return false if one of the fields is not detected
     for field in fields {
         if !text.contains(field) {
             return false;
@@ -68,6 +71,7 @@ pub fn parse_json_input(json_file: &Path) -> Result<Repository, Box<dyn std::err
     // Load the first file into a string
     let text = std::fs::read_to_string(&json_file).unwrap();
 
+    // Early read of the JSON read as a string to check if it contains GitHub issues
     if !has_github_issues(&text) {
         return Err(format!(
             "'{}' does not seem to contain GitHub issues.",
@@ -75,6 +79,7 @@ pub fn parse_json_input(json_file: &Path) -> Result<Repository, Box<dyn std::err
         )
         .into());
     }
+
     // Parse the string into a static JSON structure
     Ok(serde_json::from_str::<Repository>(&text).unwrap())
 }

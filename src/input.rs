@@ -60,14 +60,17 @@ pub struct Args {
 }
 
 pub fn check_inputs(filepath: &Path, filename: &str) -> Result<(), Box<dyn std::error::Error>> {
+    // Check if the specified path exists
     if !filepath.exists() {
         return Err(format!("'{}' does not exist!", filepath.display()).into());
     }
 
+    // Check if the specified path is a JSON file
     if filepath.extension().and_then(|ext| ext.to_str()) != Some("json") {
         return Err(format!("'{}' is not a json file!", filepath.display()).into());
     }
 
+    // Check if the output filename contains acceptable characters
     for part in filename.split(".") {
         if !part.chars().all(char::is_alphanumeric) {
             return Err(format!("{}: filename contains special characters.", &filename).into());
