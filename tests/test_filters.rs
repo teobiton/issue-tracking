@@ -14,9 +14,6 @@ fn test_build_filters() -> Result<(), Box<dyn std::error::Error>> {
     let args: Args = Args {
         output: String::from(""),
         label: String::from("type:feature"),
-        from_date: String::from(""),
-        until_date: String::from(""),
-        status: String::from(""),
         json: String::from(""),
     };
 
@@ -33,9 +30,6 @@ fn test_build_unused_filters() -> Result<(), Box<dyn std::error::Error>> {
     let args: Args = Args {
         output: String::from(""),
         label: String::from(""),
-        from_date: String::from(""),
-        until_date: String::from(""),
-        status: String::from(""),
         json: String::from(""),
     };
 
