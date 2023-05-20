@@ -7,7 +7,7 @@ use structopt::StructOpt;
 
 #[derive(StructOpt)]
 #[structopt(
-    name = "GitHub issues parser",
+    name = "issue-parser",
     about = "GitHub issues parser and exporter from JSON to csv"
 )]
 pub struct Args {
