@@ -24,15 +24,16 @@ issue-parser 1.0.0
 GitHub issues parser and exporter from JSON to csv
 
 USAGE:
-    issue-parser [OPTIONS] <json>
+    issue-parser [FLAGS] [OPTIONS] <json>
 
 FLAGS:
-    -h, --help       Prints help information
-    -V, --version    Prints version information
+    -h, --help            Prints help information
+        --print-labels    Print all available labels in the repository.
+    -V, --version         Prints version information
 
 OPTIONS:
-    -l, --label <label>      Filter the issues based on a label. [default: ]
-    -o, --output <output>    Specify a file to store the csv. [default: ]
+    -l, --label <label>      Filter the issues based on a label. [default: (all)]
+    -o, --output <output>    Specify a file to store the csv. [default: out.csv]
 
 ARGS:
     <json>    Required JSON file.
