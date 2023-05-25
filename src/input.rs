@@ -29,6 +29,10 @@ pub struct Args {
     )]
     pub label: String,
 
+    /// --print-labels
+    #[structopt(long, help = "Print all available labels in the repository.")]
+    pub print_labels: bool,
+
     /// Positional argument
     #[structopt(help = "Required JSON file.")]
     pub json: String,

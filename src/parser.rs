@@ -83,3 +83,21 @@ pub fn parse_json_input(json_file: &Path) -> Result<Repository, Box<dyn std::err
     // Parse the string into a static JSON structure
     Ok(serde_json::from_str::<Repository>(&text).unwrap())
 }
+
+pub fn print_repo_labels(issues: Vec<Issue>) {
+    let mut repository_labels = Vec::new();
+
+    for issue in issues {
+        for label in issue.labels {
+            if !repository_labels.contains(&label.name) {
+                repository_labels.push(label.name);
+            }
+        }
+    }
+
+    repository_labels.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
+
+    for label in repository_labels {
+        println!("  {}", label);
+    }
+}

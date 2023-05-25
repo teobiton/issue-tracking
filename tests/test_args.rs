@@ -135,3 +135,17 @@ fn run_with_label_filter() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+#[test]
+fn run_print_labels() -> Result<(), Box<dyn std::error::Error>> {
+    Command::cargo_bin("issue-parser")
+        .expect("binary exists")
+        .args(&[CORRECT_JSON, "--print-labels"])
+        .assert()
+        .stdout(predicate::str::contains(
+            "Available labels from tests/doc/cocotb-cocotb_issues.json",
+        ))
+        .success();
+
+    Ok(())
+}

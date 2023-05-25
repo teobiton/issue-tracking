@@ -5,6 +5,7 @@ use issue_parser::filters::Filters;
 use issue_parser::input::check_inputs;
 use issue_parser::input::Args;
 use issue_parser::parser::parse_json_input;
+use issue_parser::parser::print_repo_labels;
 use issue_parser::parser::Repository;
 use issue_parser::writer::build_output_filename;
 use issue_parser::writer::write_csv;
@@ -32,6 +33,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let repository_issues: Repository = match parse_json_input(&json_file) {
         Ok(repository) => repository,
         Err(error) => return Err(error),
+    };
+
+    // Parse the issues and display used labels
+    // Returns after execution
+    if args.print_labels {
+        println!("Available labels from {}:", &args.json);
+        print_repo_labels(repository_issues.issues);
+        return Ok(());
     };
 
     // Build the output file path into which we'll write data
