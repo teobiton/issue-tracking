@@ -15,8 +15,8 @@ pub fn build_output_filename(filename: String) -> Result<String, Box<dyn std::er
     let extensions: [&str; 7] = [".txt", ".csv", ".text", ".dat", ".log", ".xls", ".xlsx"];
 
     // If no filename was specified, always return 'out.csv'
-    if filename == "" {
-        return Ok(String::from("out.csv"));
+    if filename == "out.csv" {
+        return Ok(filename);
     }
 
     // If a known extension was specified, we return the filename as is

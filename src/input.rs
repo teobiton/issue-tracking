@@ -15,7 +15,7 @@ pub struct Args {
     #[structopt(
         long = "--output",
         short = "-o",
-        default_value = "",
+        default_value = "out.csv",
         help = "Specify a file to store the csv."
     )]
     pub output: String,
@@ -24,7 +24,7 @@ pub struct Args {
     #[structopt(
         long = "--label",
         short = "-l",
-        default_value = "",
+        default_value = "(all)",
         help = "Filter the issues based on a label."
     )]
     pub label: String,

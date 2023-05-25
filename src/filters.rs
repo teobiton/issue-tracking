@@ -21,7 +21,7 @@ impl Filters {
     pub fn from_args(args: &Args) -> Filters {
         // Factory function that builds filters from user inputs
         let label_filter = LabelFilter {
-            active: args.label != "",
+            active: args.label != "(all)",
             pattern: String::from(&args.label),
         };
 
