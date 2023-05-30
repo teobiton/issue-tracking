@@ -2,12 +2,12 @@
 
 This command-line tool can be used to parse JSON files containg data from a GitHub repository issues and export it to csv.
 The purpose is to retrieve the data easily, pre-process it with the tool and then only keep valuable information.
-The information retrieved consists of an issue's ID, its creation date, last update date, status and title.
+The information retrieved consists of an issue's ID, its creation date, last update date, state and title.
 
 Example output, with issues from this repository:
 
 ```
-ID,Created at,Last update,Status,Comment
+ID,Created at,Last update,State,Comment
 1,2023-05-15,2023-05-15,open,Move from StructOpt to App
 2,2023-05-16,2023-05-16,closed,Improve error management
 3,2023-05-17,2023-05-17,open,Introduce filtering capabilities

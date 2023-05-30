@@ -8,7 +8,7 @@ use crate::parser::Issue;
     From packed stuctures, write the serialized data into a csv file.
 */
 
-const CSV_HEADER: [&str; 5] = ["ID", "Created at", "Last update", "Status", "Comment"];
+const CSV_HEADER: [&str; 5] = ["ID", "Created at", "Last update", "State", "Comment"];
 const CSV_EXT: &str = ".csv";
 
 pub fn build_output_filename(filename: String) -> Result<String, Box<dyn std::error::Error>> {
