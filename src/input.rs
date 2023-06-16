@@ -32,11 +32,11 @@ pub struct Args {
     /// --print-labels
     #[structopt(long, help = "Print all available labels in the repository.")]
     pub print_labels: bool,
-    
+
     /// --from-date=date
     #[structopt(
         long = "--from-date",
-        default_value = "",
+        default_value = "(oldest)",
         help = "Only consider issues updated after this date. Format: YYYY-MM-DD"
     )]
     pub from_date: String,
@@ -44,26 +44,30 @@ pub struct Args {
     /// --until-date=date
     #[structopt(
         long = "--until-date",
-        default_value = "",
+        default_value = "(newest)",
         help = "Only consider issues updated before this date. Format: YYYY-MM-DD"
     )]
     pub until_date: String,
 
-    /// --status=status
+    /// --state=state
     #[structopt(
-        long = "--status",
+        long = "--state",
         short = "-s",
         default_value = "",
-        help = "Only consider issues that have a particular status."
+        help = "Only consider issues that have a particular state."
     )]
-    pub status: String,
+    pub state: String,
 
     /// Positional argument
     #[structopt(help = "Required JSON file.")]
     pub json: String,
 }
 
-pub fn check_inputs(filepath: &Path, filename: &str) -> Result<(), Box<dyn std::error::Error>> {
+pub fn check_inputs(
+    filepath: &Path,
+    filename: &str,
+    dates: [&str; 2],
+) -> Result<(), Box<dyn std::error::Error>> {
     // Check if the specified path exists
     if !filepath.exists() {
         return Err(format!("'{}' does not exist!", filepath.display()).into());
@@ -78,6 +82,38 @@ pub fn check_inputs(filepath: &Path, filename: &str) -> Result<(), Box<dyn std::
     for part in filename.split(".") {
         if !part.chars().all(char::is_alphanumeric) {
             return Err(format!("{}: filename contains special characters.", &filename).into());
+        }
+    }
+
+    let mut is_default: bool;
+    let mut date_num: Vec<&str>;
+
+    for date in dates {
+        is_default = date == "(oldest)" || date == "(newest)";
+
+        if !is_default {
+            date_num = date.split("-").collect();
+
+            if date_num.len() != 3 {
+                return Err(
+                    format!("{}: date is not at the right format (YYYY-MM-DD).", &date).into(),
+                );
+            }
+
+            for num in &date_num {
+                if !num.chars().all(char::is_numeric) {
+                    return Err(format!("{}: date contains non-numbers characters.", &date).into());
+                }
+            }
+
+            if (&date_num[0].len() != &2)
+                || (&date_num[1].len() != &2)
+                || (&date_num[2].len() != &4)
+            {
+                return Err(
+                    format!("{}: date is not at the right format (YYYY-MM-DD).", &date).into(),
+                );
+            }
         }
     }
 
