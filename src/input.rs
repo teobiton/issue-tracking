@@ -32,11 +32,11 @@ pub struct Args {
     /// --print-labels
     #[structopt(long, help = "Print all available labels in the repository.")]
     pub print_labels: bool,
-    
+
     /// --from-date=date
     #[structopt(
         long = "--from-date",
-        default_value = "",
+        default_value = "(oldest)",
         help = "Only consider issues updated after this date. Format: YYYY-MM-DD"
     )]
     pub from_date: String,
@@ -44,19 +44,19 @@ pub struct Args {
     /// --until-date=date
     #[structopt(
         long = "--until-date",
-        default_value = "",
+        default_value = "(newest)",
         help = "Only consider issues updated before this date. Format: YYYY-MM-DD"
     )]
     pub until_date: String,
 
-    /// --status=status
+    /// --state=state
     #[structopt(
-        long = "--status",
+        long = "--state",
         short = "-s",
         default_value = "",
-        help = "Only consider issues that have a particular status."
+        help = "Only consider issues that have a particular state."
     )]
-    pub status: String,
+    pub state: String,
 
     /// --from-date=date
     #[structopt(
