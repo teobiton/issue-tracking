@@ -39,7 +39,7 @@ pub fn write_csv(issues: Vec<Issue>, filename: &str, filters: Filters) -> Result
     // Parse the array of issues
     for issue in issues {
         // Only write the issues that are accepted by the filters
-        if filters.is_filtered(&issue) {
+        if !filters.is_filtered(&issue) {
             wtr.write_record(&[
                 issue.number.to_string(),
                 Issue::format_date(issue.created_at),
