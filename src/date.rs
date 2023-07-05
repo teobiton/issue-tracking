@@ -23,24 +23,27 @@ impl Date {
         }
     }
 
-    pub fn before(&self, date: &Date) -> bool {
+    pub fn compare(&self, date: &Date) -> i32 {
         // Returns true if the date structure is older than the input
-        if self.year < date.year {
-            return true;
+
+        let mut result: i32 = self.year - date.year;
+        
+        if result != 0 {
+            return result;
         }
 
-        if self.year == date.year {
-            if self.month < date.month {
-                return true;
-            }
-
-            if self.month == date.month {
-                if self.day <= date.day {
-                    return true;
-                }
-            }
+        result = self.month - date.month;
+        
+        if result != 0 {
+            return result;
         }
 
-        false
+        result = self.day - date.day;
+        
+        if result != 0 {
+            return result;
+        }
+
+        return result;
     }
 }

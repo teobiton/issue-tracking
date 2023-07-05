@@ -62,13 +62,13 @@ impl DateFilter {
     pub fn is_filtered(&self, issue: &Issue) -> bool {
         // Returns true if the issue is between  by state filter
 
-        let issue_date: Date = Date::from_str(&issue.created_at[..10]);
+        let issue_date: Date = Date::from_str(&issue.updated_at[..10]);
 
-        if (self.start_date.before(&issue_date)) && self.start_active {
+        if (self.start_date.compare(&issue_date) > 0) && self.start_active {
             return true;
         }
 
-        if !(self.end_date.before(&issue_date)) && self.end_active {
+        if (self.end_date.compare(&issue_date) < 0) && self.end_active {
             return true;
         }
 
