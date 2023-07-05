@@ -118,8 +118,8 @@ fn test_label_filtering() -> Result<(), Box<dyn std::error::Error>> {
         number: 1,
         labels: labels_a,
         state: String::from(""),
-        created_at: String::from("2023-04-12"),
-        updated_at: String::from("2023-04-12"),
+        created_at: String::from("2020-06-15"),
+        updated_at: String::from("2020-06-15"),
         closed_at: Some(String::from("")),
     };
 
@@ -128,8 +128,8 @@ fn test_label_filtering() -> Result<(), Box<dyn std::error::Error>> {
         number: 1,
         labels: labels_b,
         state: String::from(""),
-        created_at: String::from("2023-04-12"),
-        updated_at: String::from("2023-04-12"),
+        created_at: String::from("2020-06-15"),
+        updated_at: String::from("2020-06-15"),
         closed_at: Some(String::from("")),
     };
 
@@ -138,8 +138,8 @@ fn test_label_filtering() -> Result<(), Box<dyn std::error::Error>> {
         number: 1,
         labels: labels_c,
         state: String::from(""),
-        created_at: String::from("2023-04-12"),
-        updated_at: String::from("2023-04-12"),
+        created_at: String::from("2020-06-15"),
+        updated_at: String::from("2020-06-15"),
         closed_at: Some(String::from("")),
     };
 
@@ -148,8 +148,8 @@ fn test_label_filtering() -> Result<(), Box<dyn std::error::Error>> {
         number: 1,
         labels: Vec::new(),
         state: String::from(""),
-        created_at: String::from("2023-04-12"),
-        updated_at: String::from("2023-04-12"),
+        created_at: String::from("2020-06-15"),
+        updated_at: String::from("2020-06-15"),
         closed_at: Some(String::from("")),
     };
 
@@ -158,6 +158,91 @@ fn test_label_filtering() -> Result<(), Box<dyn std::error::Error>> {
     let expected: [bool; 4] = [true, true, false, false];
 
     for n in 0..4 {
+        assert_eq!(filter.is_filtered(&issues[n]), expected[n]);
+    }
+
+    Ok(())
+}
+
+#[test]
+fn test_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
+    let start_date: Date = Date {
+        year: 2020,
+        month: 6,
+        day: 15,
+    };
+
+    let end_date: Date = Date {
+        year: 2023,
+        month: 8,
+        day: 12,
+    };
+
+    let filter: Filters = Filters {
+        label_filter: LabelFilter {
+            active: false,
+            pattern: String::from(""),
+        },
+
+        state_filter: StateFilter {
+            active: false,
+            pattern: String::from(""),
+        },
+
+        date_filter: DateFilter {
+            start_active: true,
+            start_date: start_date,
+            end_active: true,
+            end_date: end_date,
+        },
+    };
+
+    let issue_a: Issue = Issue {
+        title: String::from(""),
+        number: 1,
+        labels: Vec::new(),
+        state: String::from(""),
+        created_at: String::from("2020-06-16"),
+        updated_at: String::from("2020-06-16"),
+        closed_at: Some(String::from("")),
+    };
+
+    let issue_b: Issue = Issue {
+        title: String::from(""),
+        number: 1,
+        labels: Vec::new(),
+        state: String::from(""),
+        created_at: String::from("2022-06-15"),
+        updated_at: String::from("2022-06-15"),
+        closed_at: Some(String::from("")),
+    };
+
+    let issue_c: Issue = Issue {
+        title: String::from(""),
+        number: 1,
+        labels: Vec::new(),
+        state: String::from(""),
+        created_at: String::from("2024-06-15"),
+        updated_at: String::from("2024-06-15"),
+        closed_at: Some(String::from("")),
+    };
+
+    let issue_d: Issue = Issue {
+        title: String::from(""),
+        number: 1,
+        labels: Vec::new(),
+        state: String::from(""),
+        created_at: String::from("2023-08-14"),
+        updated_at: String::from("2023-08-14"),
+        closed_at: Some(String::from("")),
+    };
+
+    let issues: [Issue; 4] = [issue_a, issue_b, issue_c, issue_d];
+
+    let expected: [bool; 4] = [false, false, true, true];
+
+    for n in 0..4 {
+        println!("{} == {}", filter.is_filtered(&issues[n]), expected[n]);
         assert_eq!(filter.is_filtered(&issues[n]), expected[n]);
     }
 
