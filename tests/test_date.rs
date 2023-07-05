@@ -95,10 +95,10 @@ fn test_compare_date() -> Result<(), Box<dyn std::error::Error>> {
         },
     ];
 
-    let expected: [bool; 7] = [false, true, true, false, true, false, true];
+    let expected: [i32; 7] = [1, 0, -1, 1, -1, 1, -1];
 
-    for i in 0..5 {
-        assert_eq!(example_date.before(&dates_sample[i]), expected[i]);
+    for i in 0..7 {
+        assert_eq!(example_date.compare(&dates_sample[i]), expected[i]);
     }
 
     Ok(())

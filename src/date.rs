@@ -27,19 +27,19 @@ impl Date {
         // Returns true if the date structure is older than the input
 
         let mut result: i32 = self.year - date.year;
-        
+
         if result != 0 {
             return result;
         }
 
         result = self.month - date.month;
-        
+
         if result != 0 {
             return result;
         }
 
         result = self.day - date.day;
-        
+
         if result != 0 {
             return result;
         }
