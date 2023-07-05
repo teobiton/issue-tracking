@@ -58,31 +58,6 @@ pub struct Args {
     )]
     pub state: String,
 
-    /// --from-date=date
-    #[structopt(
-        long = "--from-date",
-        default_value = "(oldest)",
-        help = "Only consider issues updated after this date. Format: YYYY-MM-DD"
-    )]
-    pub from_date: String,
-
-    /// --until-date=date
-    #[structopt(
-        long = "--until-date",
-        default_value = "(newest)",
-        help = "Only consider issues updated before this date. Format: YYYY-MM-DD"
-    )]
-    pub until_date: String,
-
-    /// --state=state
-    #[structopt(
-        long = "--state",
-        short = "-s",
-        default_value = "",
-        help = "Only consider issues that have a particular state."
-    )]
-    pub state: String,
-
     /// Positional argument
     #[structopt(help = "Required JSON file.")]
     pub json: String,
