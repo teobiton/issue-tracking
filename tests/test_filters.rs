@@ -157,7 +157,7 @@ fn test_label_filtering() -> Result<(), Box<dyn std::error::Error>> {
 
     let expected: [bool; 4] = [true, true, false, false];
 
-    for n in 0..3 {
+    for n in 0..4 {
         assert_eq!(filter.is_filtered(&issues[n]), expected[n]);
     }
 
