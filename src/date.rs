@@ -15,13 +15,6 @@ impl Date {
                 day: 0,
             };
         }
-        println!(
-            ",,{},,{},,{},,{},,",
-            &date_str,
-            &date_str[..4],
-            &date_str[5..7],
-            &date_str[8..10]
-        );
 
         Date {
             year: date_str[..4].parse().unwrap(),

@@ -65,12 +65,10 @@ impl DateFilter {
         let issue_date: Date = Date::from_str(&issue.created_at[..10]);
 
         if (self.start_date.before(&issue_date)) && self.start_active {
-            println!("trop vieux");
             return true;
         }
 
         if !(self.end_date.before(&issue_date)) && self.end_active {
-            println!("trop jeune");
             return true;
         }
 
