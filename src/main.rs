@@ -26,7 +26,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     match check_inputs(
         &json_file,
         &args.output,
-        [&args.from_date, &args.until_date],
+        [&args.start_date, &args.end_date],
     ) {
         Err(error) => return Err(error),
         Ok(()) => {}

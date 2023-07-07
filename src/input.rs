@@ -33,27 +33,27 @@ pub struct Args {
     #[structopt(long, help = "Print all available labels in the repository.")]
     pub print_labels: bool,
 
-    /// --from-date=date
+    /// --start-date=date
     #[structopt(
-        long = "--from-date",
+        long = "--start-date",
         default_value = "(oldest)",
         help = "Only consider issues updated after this date. Format: YYYY-MM-DD"
     )]
-    pub from_date: String,
+    pub start_date: String,
 
-    /// --until-date=date
+    /// --end-date=date
     #[structopt(
-        long = "--until-date",
+        long = "--end-date",
         default_value = "(newest)",
         help = "Only consider issues updated before this date. Format: YYYY-MM-DD"
     )]
-    pub until_date: String,
+    pub end_date: String,
 
     /// --state=state
     #[structopt(
         long = "--state",
         short = "-s",
-        default_value = "",
+        default_value = "(any)",
         help = "Only consider issues that have a particular state."
     )]
     pub state: String,
@@ -78,7 +78,7 @@ pub fn check_inputs(
         return Err(format!("'{}' is not a json file!", filepath.display()).into());
     }
 
-    // Check if the output filename contains acceptable characters
+    // Check if the output filename contains rejectable characters
     for part in filename.split(".") {
         if !part.chars().all(char::is_alphanumeric) {
             return Err(format!("{}: filename contains special characters.", &filename).into());
@@ -106,9 +106,9 @@ pub fn check_inputs(
                 }
             }
 
-            if (&date_num[0].len() != &2)
+            if (&date_num[0].len() != &4)
                 || (&date_num[1].len() != &2)
-                || (&date_num[2].len() != &4)
+                || (&date_num[2].len() != &2)
             {
                 return Err(
                     format!("{}: date is not at the right format (YYYY-MM-DD).", &date).into(),

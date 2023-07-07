@@ -21,10 +21,10 @@ pub struct LabelFilter {
 }
 
 impl LabelFilter {
-    pub fn is_filtered(&self, issue: &Issue) -> bool {
-        // Returns true if the issue is accepted by label filter
+    pub fn reject(&self, issue: &Issue) -> bool {
+        // Returns true if the issue is rejected by label filter
 
-        if issue.is_labeled(&self.pattern) && self.active {
+        if !issue.is_labeled(&self.pattern) && self.active {
             return true;
         }
 
@@ -39,10 +39,10 @@ pub struct StateFilter {
 }
 
 impl StateFilter {
-    pub fn is_filtered(&self, issue: &Issue) -> bool {
-        // Returns true if the issue is accepted by state filter
+    pub fn reject(&self, issue: &Issue) -> bool {
+        // Returns true if the issue is rejected by state filter
 
-        if (issue.state == self.pattern) && self.active {
+        if (issue.state != self.pattern) && self.active {
             return true;
         }
 
@@ -59,8 +59,8 @@ pub struct DateFilter {
 }
 
 impl DateFilter {
-    pub fn is_filtered(&self, issue: &Issue) -> bool {
-        // Returns true if the issue is between  by state filter
+    pub fn reject(&self, issue: &Issue) -> bool {
+        // Returns true if the issue is out of bounds
 
         let issue_date: Date = Date::from_str(&issue.updated_at[..10]);
 
@@ -90,10 +90,10 @@ impl Filters {
         };
 
         let date_filter = DateFilter {
-            start_active: args.from_date != "(oldest)",
-            start_date: Date::from_str(&args.from_date),
-            end_active: args.from_date != "(newest)",
-            end_date: Date::from_str(&args.until_date),
+            start_active: args.start_date != "(oldest)",
+            start_date: Date::from_str(&args.start_date),
+            end_active: args.end_date != "(newest)",
+            end_date: Date::from_str(&args.end_date),
         };
 
         Filters {
@@ -103,18 +103,18 @@ impl Filters {
         }
     }
 
-    pub fn is_filtered(&self, issue: &Issue) -> bool {
-        // Returns true if the issue is accepted by the filters
+    pub fn reject(&self, issue: &Issue) -> bool {
+        // Returns true if the issue is rejected by the filters
 
-        if self.label_filter.is_filtered(issue) {
+        if self.label_filter.reject(issue) {
             return true;
         }
 
-        if self.state_filter.is_filtered(issue) {
+        if self.state_filter.reject(issue) {
             return true;
         }
 
-        if self.date_filter.is_filtered(issue) {
+        if self.date_filter.reject(issue) {
             return true;
         }
 
