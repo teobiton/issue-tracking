@@ -19,8 +19,8 @@ fn test_build_filters() -> Result<(), Box<dyn std::error::Error>> {
         label: String::from("type:feature"),
         state: String::from("opened"),
         print_labels: false,
-        from_date: String::from("(oldest)"),
-        until_date: String::from("(newest)"),
+        start_date: String::from("(oldest)"),
+        end_date: String::from("(newest)"),
         json: String::from(""),
     };
 
@@ -42,8 +42,8 @@ fn test_build_unused_filters() -> Result<(), Box<dyn std::error::Error>> {
         label: String::from("(all)"),
         state: String::from("(any)"),
         print_labels: false,
-        from_date: String::from("(oldest)"),
-        until_date: String::from("(newest)"),
+        start_date: String::from("(oldest)"),
+        end_date: String::from("(newest)"),
         json: String::from(""),
     };
 
@@ -155,10 +155,10 @@ fn test_label_filtering() -> Result<(), Box<dyn std::error::Error>> {
 
     let issues: [Issue; 4] = [issue_a, issue_b, issue_c, issue_d];
 
-    let expected: [bool; 4] = [true, true, false, false];
+    let expected: [bool; 4] = [false, false, true, true];
 
     for n in 0..4 {
-        assert_eq!(filter.is_filtered(&issues[n]), expected[n]);
+        assert_eq!(filter.reject(&issues[n]), expected[n]);
     }
 
     Ok(())
@@ -242,8 +242,8 @@ fn test_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
     let expected: [bool; 4] = [false, false, true, true];
 
     for n in 0..4 {
-        println!("{} == {}", filter.is_filtered(&issues[n]), expected[n]);
-        assert_eq!(filter.is_filtered(&issues[n]), expected[n]);
+        println!("{} == {}", filter.reject(&issues[n]), expected[n]);
+        assert_eq!(filter.reject(&issues[n]), expected[n]);
     }
 
     Ok(())
