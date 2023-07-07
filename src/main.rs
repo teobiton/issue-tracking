@@ -23,11 +23,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let json_file = Path::new(&args.json);
 
     // Check if the inputs are correct, return error if not
-    match check_inputs(
-        &json_file,
-        &args.output,
-        [&args.start_date, &args.end_date],
-    ) {
+    match check_inputs(&json_file, &args.output, [&args.start_date, &args.end_date]) {
         Err(error) => return Err(error),
         Ok(()) => {}
     };
