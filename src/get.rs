@@ -5,10 +5,13 @@ use reqwest::header::USER_AGENT;
 use crate::parser::Issue;
 use crate::parser::Repository;
 
-pub fn request_json(url: &str) -> Result<Repository, Box<dyn std::error::Error>> {
+pub fn request_json(repo: &str) -> Result<Repository, Box<dyn std::error::Error>> {
+    // build url
+    let url: String = format!("https://api.github.com/repos/{repo}/issues", repo = repo);
+
     let client = reqwest::blocking::Client::new();
     let resp = client
-        .get(url)
+        .get(&url)
         .header(USER_AGENT, "access_header")
         .header(CONTENT_TYPE, "application/vnd.github+json")
         .header(ACCEPT, "application/vnd.github+json")
@@ -29,10 +32,10 @@ pub fn request_json(url: &str) -> Result<Repository, Box<dyn std::error::Error>>
             return Err(format!("Unauthorized token").into());
         }
         reqwest::StatusCode::NOT_FOUND => {
-            return Err(format!("'{}': not found.", url).into());
+            return Err(format!("'{}': not found.", &url).into());
         }
         _ => {
-            return Err(format!("'{}': Something unexpected happened.", url).into());
+            return Err(format!("'{}': Something unexpected happened.", &url).into());
         }
     }
 }

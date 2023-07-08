@@ -91,8 +91,8 @@ pub fn check_inputs(
             return Err(format!("'{}' is not a json file!", filepath.display()).into());
         }
     } else {
-        if !filepath_str.contains("https://api.github") {
-            return Err(format!("'{}' is not a valid url to GitHub API", &filepath_str).into());
+        if !filepath_str.contains("/") {
+            return Err(format!("'{}' is not a valid GitHub repository.", &filepath_str).into());
         }
     }
 
