@@ -22,6 +22,7 @@ fn test_build_filters() -> Result<(), Box<dyn std::error::Error>> {
         start_date: String::from("(oldest)"),
         end_date: String::from("(newest)"),
         json: String::from(""),
+        get: false,
     };
 
     let filter: Filters = Filters::from_args(&args);
@@ -45,6 +46,7 @@ fn test_build_unused_filters() -> Result<(), Box<dyn std::error::Error>> {
         start_date: String::from("(oldest)"),
         end_date: String::from("(newest)"),
         json: String::from(""),
+        get: false,
     };
 
     let filter: Filters = Filters::from_args(&args);

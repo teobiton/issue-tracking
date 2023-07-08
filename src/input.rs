@@ -58,24 +58,42 @@ pub struct Args {
     )]
     pub state: String,
 
+    /// -u, --url
+    #[structopt(
+        long = "--get",
+        short = "-g",
+        help = "GET the JSON file from GitHub API."
+    )]
+    pub get: bool,
+
     /// Positional argument
-    #[structopt(help = "Required JSON file.")]
+    #[structopt(help = "Required JSON file link (local or from GitHub API).")]
     pub json: String,
 }
 
 pub fn check_inputs(
-    filepath: &Path,
+    filepath_str: &str,
     filename: &str,
     dates: [&str; 2],
+    get: &bool,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    // Check if the specified path exists
-    if !filepath.exists() {
-        return Err(format!("'{}' does not exist!", filepath.display()).into());
-    }
+    if !get {
+        // Convert the json file to a Path object
+        let filepath = Path::new(filepath_str);
 
-    // Check if the specified path is a JSON file
-    if filepath.extension().and_then(|ext| ext.to_str()) != Some("json") {
-        return Err(format!("'{}' is not a json file!", filepath.display()).into());
+        // Check if the specified path exists
+        if !filepath.exists() {
+            return Err(format!("'{}' does not exist!", filepath.display()).into());
+        }
+
+        // Check if the specified path is a JSON file
+        if filepath.extension().and_then(|ext| ext.to_str()) != Some("json") {
+            return Err(format!("'{}' is not a json file!", filepath.display()).into());
+        }
+    } else {
+        if !filepath_str.contains("https://api.github") {
+            return Err(format!("'{}' is not a valid url to GitHub API", &filepath_str).into());
+        }
     }
 
     // Check if the output filename contains rejectable characters

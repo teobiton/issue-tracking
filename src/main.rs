@@ -2,6 +2,7 @@ use std::path::Path;
 use structopt::StructOpt;
 
 use issue_parser::filters::Filters;
+use issue_parser::get::request_json;
 use issue_parser::input::check_inputs;
 use issue_parser::input::Args;
 use issue_parser::parser::parse_json_input;
@@ -9,7 +10,6 @@ use issue_parser::parser::print_repo_labels;
 use issue_parser::parser::Repository;
 use issue_parser::writer::build_output_filename;
 use issue_parser::writer::write_csv;
-
 /*
     Main thread of the application.
     Arguments are processed here and external functions are called to build the output.
@@ -23,16 +23,28 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let json_file = Path::new(&args.json);
 
     // Check if the inputs are correct, return error if not
-    match check_inputs(&json_file, &args.output, [&args.start_date, &args.end_date]) {
+    match check_inputs(
+        &args.json,
+        &args.output,
+        [&args.start_date, &args.end_date],
+        &args.get,
+    ) {
         Err(error) => return Err(error),
         Ok(()) => {}
     };
 
     // Parse the JSON file and store its data into a Repository structure
     // Returns if an error occured
-    let repository_issues: Repository = match parse_json_input(&json_file) {
-        Ok(repository) => repository,
-        Err(error) => return Err(error),
+    let repository_issues: Repository = if !args.get {
+        match parse_json_input(&json_file) {
+            Ok(repository) => repository,
+            Err(error) => return Err(error),
+        }
+    } else {
+        match request_json(&args.json) {
+            Ok(repository) => repository,
+            Err(error) => return Err(error),
+        }
     };
 
     // Parse the issues and display used labels
