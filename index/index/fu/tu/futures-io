@@ -1,0 +1,1 @@
+{"name":"futures-io","vers":"0.3.28","deps":[],"cksum":"4fff74096e71ed47f8e023204cfd0aa1289cd54ae5430a9523be060cdb849964","features":{"default":["std"],"std":[],"unstable":[]},"yanked":false}

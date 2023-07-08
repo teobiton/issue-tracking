@@ -1,0 +1,1 @@
+{"name":"unicode-normalization","vers":"0.1.22","deps":[{"name":"tinyvec","req":"^1","features":["alloc"],"optional":false,"default_features":true,"target":null,"kind":null,"package":null}],"cksum":"5c5713f0fc4b5db668a2ac63cdb7bb4469d8c9fed047b1d0292cc7b0ce2ba921","features":{"default":["std"],"std":[]},"yanked":false}
