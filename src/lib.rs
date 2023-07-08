@@ -2,6 +2,7 @@
 
 pub mod date;
 pub mod filters;
+pub mod get;
 pub mod input;
 pub mod parser;
 pub mod writer;
