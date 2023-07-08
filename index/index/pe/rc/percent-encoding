@@ -1,0 +1,1 @@
+{"name":"percent-encoding","vers":"2.3.0","deps":[],"cksum":"9b2a4787296e9989611394c33f193f676704af1686e70b8f8033ab5ba9a35a94","features":{"alloc":[],"default":["std"],"std":["alloc"]},"yanked":false}
