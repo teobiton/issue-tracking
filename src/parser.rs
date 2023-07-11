@@ -21,6 +21,7 @@ pub struct Issue {
     pub created_at: String,
     pub updated_at: String,
     pub closed_at: Option<String>,
+    pub draft: Option<bool>,
 }
 
 impl Issue {

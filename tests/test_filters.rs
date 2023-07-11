@@ -123,6 +123,7 @@ fn test_label_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2020-06-15"),
         updated_at: String::from("2020-06-15"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_b: Issue = Issue {
@@ -133,6 +134,7 @@ fn test_label_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2020-06-15"),
         updated_at: String::from("2020-06-15"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_c: Issue = Issue {
@@ -143,6 +145,7 @@ fn test_label_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2020-06-15"),
         updated_at: String::from("2020-06-15"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_d: Issue = Issue {
@@ -153,6 +156,7 @@ fn test_label_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2020-06-15"),
         updated_at: String::from("2020-06-15"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issues: [Issue; 4] = [issue_a, issue_b, issue_c, issue_d];
@@ -207,6 +211,7 @@ fn test_start_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2020-06-16"),
         updated_at: String::from("2020-06-16"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_b: Issue = Issue {
@@ -217,6 +222,7 @@ fn test_start_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2022-06-15"),
         updated_at: String::from("2022-06-15"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_c: Issue = Issue {
@@ -227,6 +233,7 @@ fn test_start_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2020-06-11"),
         updated_at: String::from("2020-06-11"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_d: Issue = Issue {
@@ -237,6 +244,7 @@ fn test_start_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2012-08-14"),
         updated_at: String::from("2012-08-14"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issues: [Issue; 4] = [issue_a, issue_b, issue_c, issue_d];
@@ -292,6 +300,7 @@ fn test_end_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2020-06-16"),
         updated_at: String::from("2020-06-16"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_b: Issue = Issue {
@@ -302,6 +311,7 @@ fn test_end_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2022-06-15"),
         updated_at: String::from("2022-06-15"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_c: Issue = Issue {
@@ -312,6 +322,7 @@ fn test_end_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2024-06-15"),
         updated_at: String::from("2024-06-15"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_d: Issue = Issue {
@@ -322,6 +333,7 @@ fn test_end_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2023-08-14"),
         updated_at: String::from("2023-08-14"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issues: [Issue; 4] = [issue_a, issue_b, issue_c, issue_d];
@@ -377,6 +389,7 @@ fn test_inbetween_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2020-06-16"),
         updated_at: String::from("2020-06-16"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_b: Issue = Issue {
@@ -387,6 +400,7 @@ fn test_inbetween_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2022-06-15"),
         updated_at: String::from("2022-06-15"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_c: Issue = Issue {
@@ -397,6 +411,7 @@ fn test_inbetween_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2024-06-15"),
         updated_at: String::from("2024-06-15"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_d: Issue = Issue {
@@ -407,6 +422,7 @@ fn test_inbetween_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2023-08-14"),
         updated_at: String::from("2023-08-14"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issues: [Issue; 4] = [issue_a, issue_b, issue_c, issue_d];
@@ -462,6 +478,7 @@ fn test_state_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2020-06-16"),
         updated_at: String::from("2020-06-16"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_b: Issue = Issue {
@@ -472,6 +489,7 @@ fn test_state_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2022-06-15"),
         updated_at: String::from("2022-06-15"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_c: Issue = Issue {
@@ -482,6 +500,7 @@ fn test_state_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2024-06-15"),
         updated_at: String::from("2024-06-15"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issue_d: Issue = Issue {
@@ -492,6 +511,7 @@ fn test_state_filtering() -> Result<(), Box<dyn std::error::Error>> {
         created_at: String::from("2023-08-14"),
         updated_at: String::from("2023-08-14"),
         closed_at: Some(String::from("")),
+        draft: None,
     };
 
     let issues: [Issue; 4] = [issue_a, issue_b, issue_c, issue_d];
