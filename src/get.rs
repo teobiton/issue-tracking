@@ -5,7 +5,7 @@ use reqwest::header::USER_AGENT;
 use crate::parser::Issue;
 use crate::parser::Repository;
 
-const PER_PAGE: u16 = 100;
+const PER_PAGE: usize = 100;
 
 fn request_page_issues(repo: &str, page: u16) -> Result<Vec<Issue>, Box<dyn std::error::Error>> {
     // build url
@@ -54,9 +54,9 @@ pub fn request_json(repo: &str) -> Result<Repository, Box<dyn std::error::Error>
     let mut page: u16 = 1;
     let mut issues = vec![];
 
-    let mut fetched_number: usize = 100;
+    let mut fetched_number: usize = PER_PAGE;
 
-    while fetched_number == 100 {
+    while fetched_number == PER_PAGE {
         match request_page_issues(repo, page) {
             Ok(mut page_elems) => {
                 fetched_number = page_elems.len();
