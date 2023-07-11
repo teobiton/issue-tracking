@@ -1,15 +1,15 @@
 use std::path::Path;
 use structopt::StructOpt;
 
-use issue_parser::filters::Filters;
-use issue_parser::get::request_json;
-use issue_parser::input::check_inputs;
-use issue_parser::input::Args;
-use issue_parser::parser::parse_json_input;
-use issue_parser::parser::print_repo_labels;
-use issue_parser::parser::Repository;
-use issue_parser::writer::build_output_filename;
-use issue_parser::writer::write_csv;
+use issue_tracking::filters::Filters;
+use issue_tracking::get::request_json;
+use issue_tracking::input::check_inputs;
+use issue_tracking::input::Args;
+use issue_tracking::parser::parse_json_input;
+use issue_tracking::parser::print_repo_labels;
+use issue_tracking::parser::Repository;
+use issue_tracking::writer::build_output_filename;
+use issue_tracking::writer::write_csv;
 /*
     Main thread of the application.
     Arguments are processed here and external functions are called to build the output.

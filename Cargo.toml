@@ -1,5 +1,5 @@
 [package]
-name = "issue-parser"
+name = "issue-tracking"
 version = "1.0.0"
 authors = ["Téo Biton"]
 edition = "2021"

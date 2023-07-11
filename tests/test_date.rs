@@ -1,4 +1,4 @@
-use issue_parser::date::Date;
+use issue_tracking::date::Date;
 
 #[test]
 fn test_build_date() -> Result<(), Box<dyn std::error::Error>> {

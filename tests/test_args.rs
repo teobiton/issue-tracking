@@ -16,7 +16,7 @@ const EXT_OUTPUT_ARG: &str = "--output=outext.csv";
 
 #[test]
 fn run_with_existing_file() -> Result<(), Box<dyn std::error::Error>> {
-    Command::cargo_bin("issue-parser")
+    Command::cargo_bin("issue-tracking")
         .expect("binary exists")
         .args(&[CORRECT_JSON])
         .assert()
@@ -29,7 +29,7 @@ fn run_with_existing_file() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn run_with_non_existing_file() -> Result<(), Box<dyn std::error::Error>> {
-    Command::cargo_bin("issue-parser")
+    Command::cargo_bin("issue-tracking")
         .expect("binary exists")
         .args(&["no/such/file.txt"])
         .assert()
@@ -43,7 +43,7 @@ fn run_with_non_existing_file() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn run_with_wrong_extension_file() -> Result<(), Box<dyn std::error::Error>> {
-    Command::cargo_bin("issue-parser")
+    Command::cargo_bin("issue-tracking")
         .expect("binary exists")
         .args(&["README.md"])
         .assert()
@@ -55,7 +55,7 @@ fn run_with_wrong_extension_file() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn run_with_wrong_json_file() -> Result<(), Box<dyn std::error::Error>> {
-    Command::cargo_bin("issue-parser")
+    Command::cargo_bin("issue-tracking")
         .expect("binary exists")
         .args(&[WRONG_JSON])
         .assert()
@@ -69,7 +69,7 @@ fn run_with_wrong_json_file() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn run_with_output() -> Result<(), Box<dyn std::error::Error>> {
-    Command::cargo_bin("issue-parser")
+    Command::cargo_bin("issue-tracking")
         .expect("binary exists")
         .args(&[CORRECT_JSON, OUTPUT_ARG])
         .assert()
@@ -88,7 +88,7 @@ fn run_with_output() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn run_with_extended_output() -> Result<(), Box<dyn std::error::Error>> {
-    Command::cargo_bin("issue-parser")
+    Command::cargo_bin("issue-tracking")
         .expect("binary exists")
         .args(&[CORRECT_JSON, EXT_OUTPUT_ARG])
         .assert()
@@ -110,7 +110,7 @@ fn run_with_wrong_outputs() -> Result<(), Box<dyn std::error::Error>> {
     let filenames: [&str; 3] = ["out;", "#out", "out/out"];
 
     for filename in filenames {
-        Command::cargo_bin("issue-parser")
+        Command::cargo_bin("issue-tracking")
             .expect("binary exists")
             .args(&[CORRECT_JSON, "-o", filename])
             .assert()
@@ -127,7 +127,7 @@ fn run_with_wrong_outputs() -> Result<(), Box<dyn std::error::Error>> {
 fn run_with_label_filter() -> Result<(), Box<dyn std::error::Error>> {
     let filename: &str = "filter.csv";
 
-    Command::cargo_bin("issue-parser")
+    Command::cargo_bin("issue-tracking")
         .expect("binary exists")
         .args(&[CORRECT_JSON, "-o", filename, "-l", "type:feature"])
         .assert()
@@ -138,7 +138,7 @@ fn run_with_label_filter() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn run_print_labels() -> Result<(), Box<dyn std::error::Error>> {
-    Command::cargo_bin("issue-parser")
+    Command::cargo_bin("issue-tracking")
         .expect("binary exists")
         .args(&[CORRECT_JSON, "--print-labels"])
         .assert()

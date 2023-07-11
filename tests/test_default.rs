@@ -9,7 +9,7 @@ use std::process::Command;
 
 #[test]
 fn default_run() -> Result<(), Box<dyn std::error::Error>> {
-    Command::cargo_bin("issue-parser")
+    Command::cargo_bin("issue-tracking")
         .expect("binary exists")
         .assert()
         .failure(); /* We expect a failure because no args are provided */

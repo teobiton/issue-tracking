@@ -1,7 +1,7 @@
 use std::path::Path;
 
-use issue_parser::parser::parse_json_input;
-use issue_parser::parser::Repository;
+use issue_tracking::parser::parse_json_input;
+use issue_tracking::parser::Repository;
 
 /*
    Tests for the parse_correct_json function.

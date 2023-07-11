@@ -1,12 +1,12 @@
-use issue_parser::filters::DateFilter;
-use issue_parser::filters::Filters;
-use issue_parser::filters::LabelFilter;
-use issue_parser::filters::StateFilter;
+use issue_tracking::filters::DateFilter;
+use issue_tracking::filters::Filters;
+use issue_tracking::filters::LabelFilter;
+use issue_tracking::filters::StateFilter;
 
-use issue_parser::date::Date;
-use issue_parser::input::Args;
-use issue_parser::parser::Issue;
-use issue_parser::parser::Label;
+use issue_tracking::date::Date;
+use issue_tracking::input::Args;
+use issue_tracking::parser::Issue;
+use issue_tracking::parser::Label;
 
 /*
    Tests for filters.
