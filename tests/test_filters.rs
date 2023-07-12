@@ -27,10 +27,10 @@ fn test_build_filters() -> Result<(), Box<dyn std::error::Error>> {
 
     let filter: Filters = Filters::from_args(&args);
 
-    assert_eq!(filter.label_filter.active, true);
+    assert!(filter.label_filter.active);
     assert_eq!(filter.label_filter.pattern, "type:feature");
 
-    assert_eq!(filter.state_filter.active, true);
+    assert!(filter.state_filter.active);
     assert_eq!(filter.state_filter.pattern, "opened");
 
     Ok(())
@@ -51,10 +51,10 @@ fn test_build_unused_filters() -> Result<(), Box<dyn std::error::Error>> {
 
     let filter: Filters = Filters::from_args(&args);
 
-    assert_eq!(filter.label_filter.active, false);
+    assert!(!filter.label_filter.active);
     assert_eq!(filter.label_filter.pattern, "(all)");
 
-    assert_eq!(filter.state_filter.active, false);
+    assert!(!filter.state_filter.active);
     assert_eq!(filter.state_filter.pattern, "(any)");
 
     Ok(())
@@ -87,9 +87,9 @@ fn test_label_filtering() -> Result<(), Box<dyn std::error::Error>> {
 
         date_filter: DateFilter {
             start_active: false,
-            start_date: start_date,
+            start_date,
             end_active: false,
-            end_date: end_date,
+            end_date,
         },
     };
 
@@ -197,9 +197,9 @@ fn test_start_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
 
         date_filter: DateFilter {
             start_active: true,
-            start_date: start_date,
+            start_date,
             end_active: false,
-            end_date: end_date,
+            end_date,
         },
     };
 
@@ -286,9 +286,9 @@ fn test_end_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
 
         date_filter: DateFilter {
             start_active: true,
-            start_date: start_date,
+            start_date,
             end_active: true,
-            end_date: end_date,
+            end_date,
         },
     };
 
@@ -375,9 +375,9 @@ fn test_inbetween_date_filtering() -> Result<(), Box<dyn std::error::Error>> {
 
         date_filter: DateFilter {
             start_active: true,
-            start_date: start_date,
+            start_date,
             end_active: true,
-            end_date: end_date,
+            end_date,
         },
     };
 
@@ -464,9 +464,9 @@ fn test_state_filtering() -> Result<(), Box<dyn std::error::Error>> {
 
         date_filter: DateFilter {
             start_active: false,
-            start_date: start_date,
+            start_date,
             end_active: false,
-            end_date: end_date,
+            end_date,
         },
     };
 

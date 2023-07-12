@@ -40,7 +40,7 @@ fn test_build_date() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut temp_date: Date;
     for i in 0..5 {
-        temp_date = Date::from_str(dates_str[i]);
+        temp_date = Date::date_str(dates_str[i]);
         assert_eq!(temp_date.year, dates_result[i].year);
         assert_eq!(temp_date.month, dates_result[i].month);
         assert_eq!(temp_date.day, dates_result[i].day);

@@ -90,14 +90,12 @@ pub fn check_inputs(
         if filepath.extension().and_then(|ext| ext.to_str()) != Some("json") {
             return Err(format!("'{}' is not a json file!", filepath.display()).into());
         }
-    } else {
-        if !filepath_str.contains("/") {
-            return Err(format!("'{}' is not a valid GitHub repository.", &filepath_str).into());
-        }
+    } else if !filepath_str.contains('/') {
+        return Err(format!("'{}' is not a valid GitHub repository.", &filepath_str).into());
     }
 
     // Check if the output filename contains rejectable characters
-    for part in filename.split(".") {
+    for part in filename.split('.') {
         if !part.chars().all(char::is_alphanumeric) {
             return Err(format!("{}: filename contains special characters.", &filename).into());
         }
@@ -110,7 +108,7 @@ pub fn check_inputs(
         is_default = date == "(oldest)" || date == "(newest)";
 
         if !is_default {
-            date_num = date.split("-").collect();
+            date_num = date.split('-').collect();
 
             if date_num.len() != 3 {
                 return Err(
@@ -124,10 +122,7 @@ pub fn check_inputs(
                 }
             }
 
-            if (&date_num[0].len() != &4)
-                || (&date_num[1].len() != &2)
-                || (&date_num[2].len() != &2)
-            {
+            if (date_num[0].len() != 4) || (date_num[1].len() != 2) || (date_num[2].len() != 2) {
                 return Err(
                     format!("{}: date is not at the right format (YYYY-MM-DD).", &date).into(),
                 );

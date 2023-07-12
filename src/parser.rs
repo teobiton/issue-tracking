@@ -70,7 +70,7 @@ fn has_github_issues(text: &str) -> bool {
 
 pub fn parse_json_input(json_file: &Path) -> Result<Repository, Box<dyn std::error::Error>> {
     // Load the first file into a string
-    let text = std::fs::read_to_string(&json_file).unwrap();
+    let text = std::fs::read_to_string(json_file).unwrap();
 
     // Early read of the JSON read as a string to check if it contains GitHub issues
     if !has_github_issues(&text) {
@@ -96,7 +96,7 @@ pub fn print_repo_labels(issues: Vec<Issue>) {
         }
     }
 
-    repository_labels.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
+    repository_labels.sort_by_key(|a| a.to_lowercase());
 
     for label in repository_labels {
         println!("  {}", label);

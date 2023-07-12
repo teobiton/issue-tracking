@@ -11,7 +11,7 @@ use issue_tracking::parser::Repository;
 fn test_parse_correct_json() -> Result<(), Box<dyn std::error::Error>> {
     let json_file = Path::new("tests/doc/cocotb-cocotb_issues.json");
 
-    let repository: Repository = match parse_json_input(&json_file) {
+    let repository: Repository = match parse_json_input(json_file) {
         Ok(repository) => repository,
         Err(_) => {
             panic!("Parser did not recognize a legititmate json.")
@@ -32,10 +32,9 @@ fn test_parse_correct_json() -> Result<(), Box<dyn std::error::Error>> {
 fn test_parse_wrong_json() -> Result<(), Box<dyn std::error::Error>> {
     let json_file = Path::new("tests/doc/bogus.json");
 
-    let _ = match parse_json_input(&json_file) {
-        Ok(_) => panic!("Parser did not catch a wrong json file."),
-        Err(_) => {}
-    };
+    if let Ok(_) = parse_json_input(json_file) {
+        panic!("Parser did not catch a wrong json file.")
+    }
 
     Ok(())
 }

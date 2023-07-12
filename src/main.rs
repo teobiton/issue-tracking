@@ -23,20 +23,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let json_file = Path::new(&args.json);
 
     // Check if the inputs are correct, return error if not
-    match check_inputs(
+    check_inputs(
         &args.json,
         &args.output,
         [&args.start_date, &args.end_date],
         &args.get,
-    ) {
-        Err(error) => return Err(error),
-        Ok(()) => {}
-    };
+    )?;
 
     // Parse the JSON file and store its data into a Repository structure
     // Returns if an error occured
     let repository_issues: Repository = if !args.get {
-        match parse_json_input(&json_file) {
+        match parse_json_input(json_file) {
             Ok(repository) => repository,
             Err(error) => return Err(error),
         }
