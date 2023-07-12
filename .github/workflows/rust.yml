@@ -1,4 +1,4 @@
-name: Application test
+name: Cargo test check
 
 on:
   push:
