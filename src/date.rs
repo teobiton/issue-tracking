@@ -5,7 +5,7 @@ pub struct Date {
 }
 
 impl Date {
-    pub fn from_str(date_str: &str) -> Date {
+    pub fn date_str(date_str: &str) -> Date {
         // Build a date structure from a string
 
         if date_str == "(oldest)" || date_str == "(newest)" {
@@ -44,6 +44,6 @@ impl Date {
             return result;
         }
 
-        return result;
+        result
     }
 }

@@ -62,7 +62,7 @@ impl DateFilter {
     pub fn reject(&self, issue: &Issue) -> bool {
         // Returns true if the issue is out of bounds
 
-        let issue_date: Date = Date::from_str(&issue.updated_at[..10]);
+        let issue_date: Date = Date::date_str(&issue.updated_at[..10]);
 
         if (self.start_date.compare(&issue_date) > 0) && self.start_active {
             return true;
@@ -91,15 +91,15 @@ impl Filters {
 
         let date_filter = DateFilter {
             start_active: args.start_date != "(oldest)",
-            start_date: Date::from_str(&args.start_date),
+            start_date: Date::date_str(&args.start_date),
             end_active: args.end_date != "(newest)",
-            end_date: Date::from_str(&args.end_date),
+            end_date: Date::date_str(&args.end_date),
         };
 
         Filters {
-            label_filter: label_filter,
-            state_filter: state_filter,
-            date_filter: date_filter,
+            label_filter,
+            state_filter,
+            date_filter,
         }
     }
 

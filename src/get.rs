@@ -28,26 +28,18 @@ fn request_page_issues(repo: &str, page: u16) -> Result<Vec<Issue>, Box<dyn std:
         reqwest::StatusCode::OK => {
             // on success, parse our JSON to issues
             match resp.json::<Vec<Issue>>() {
-                Ok(issues) => {
-                    return Ok(issues);
-                }
-                Err(e) => return Err(format!("Unexpected format: {}", e).into()),
-            };
+                Ok(issues) => Ok(issues),
+                Err(e) => Err(format!("Unexpected format: {}", e).into()),
+            }
         }
-        reqwest::StatusCode::UNAUTHORIZED => {
-            return Err(format!("Unauthorized token").into());
-        }
-        reqwest::StatusCode::NOT_FOUND => {
-            return Err(format!("'{}': not found.", &url).into());
-        }
-        _ => {
-            return Err(format!("'{}': Something unexpected happened.", &url).into());
-        }
+        reqwest::StatusCode::UNAUTHORIZED => Err("Unauthorized token".to_string().into()),
+        reqwest::StatusCode::NOT_FOUND => Err(format!("'{}': not found.", &url).into()),
+        _ => Err(format!("'{}': Something unexpected happened.", &url).into()),
     }
 }
 
 fn remove_pull_requests(elems: &mut Vec<Issue>) {
-    elems.retain(|pr| pr.draft == None);
+    elems.retain(|pr| pr.draft.is_none());
 }
 
 pub fn request_json(repo: &str) -> Result<Repository, Box<dyn std::error::Error>> {
@@ -69,5 +61,5 @@ pub fn request_json(repo: &str) -> Result<Repository, Box<dyn std::error::Error>
         page += 1;
     }
 
-    Ok(Repository { issues: issues })
+    Ok(Repository { issues })
 }

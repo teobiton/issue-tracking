@@ -27,14 +27,14 @@ pub fn build_output_filename(filename: String) -> Result<String, Box<dyn std::er
     }
 
     // Add the 'csv' extension if the file does not contain one
-    Ok(String::from(filename.to_owned() + CSV_EXT))
+    Ok(filename + CSV_EXT)
 }
 
 pub fn write_csv(issues: Vec<Issue>, filename: &str, filters: Filters) -> Result<(), ExitFailure> {
     let mut wtr = Writer::from_path(filename)?;
 
     // The header is always the same
-    wtr.write_record(&CSV_HEADER)?;
+    wtr.write_record(CSV_HEADER)?;
 
     // Parse the array of issues
     for issue in issues {
