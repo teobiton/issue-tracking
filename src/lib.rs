@@ -1,6 +1,7 @@
 // issue-tracking crate library that allows us to use functions and structures throughout the files
 
 pub mod date;
+pub mod err;
 pub mod filters;
 pub mod get;
 pub mod input;

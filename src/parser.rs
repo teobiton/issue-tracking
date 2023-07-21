@@ -1,3 +1,5 @@
+use crate::err::ErrKind;
+use crate::err::IssueParserErr;
 use serde_derive::{Deserialize, Serialize};
 use std::path::Path;
 
@@ -68,21 +70,39 @@ fn has_github_issues(text: &str) -> bool {
     true
 }
 
-pub fn parse_json_input(json_file: &Path) -> Result<Repository, Box<dyn std::error::Error>> {
+pub fn parse_json_input(json_file: &Path) -> Result<Repository, IssueParserErr> {
     // Load the first file into a string
-    let text = std::fs::read_to_string(json_file).unwrap();
+    let text = match std::fs::read_to_string(json_file) {
+        Ok(text) => text,
+        Err(error) => {
+            let e = IssueParserErr {
+                msg: error.to_string(),
+                kind: ErrKind::Parser,
+            };
+            return Err(e);
+        }
+    };
 
     // Early read of the JSON read as a string to check if it contains GitHub issues
     if !has_github_issues(&text) {
-        return Err(format!(
-            "'{}' does not seem to contain GitHub issues.",
-            &json_file.display()
-        )
-        .into());
+        let e = IssueParserErr {
+            msg: format!(
+                "'{}' does not seem to contain GitHub issues.",
+                &json_file.display()
+            ),
+            kind: ErrKind::Parser,
+        };
+        return Err(e);
     }
 
     // Parse the string into a static JSON structure
-    Ok(serde_json::from_str::<Repository>(&text).unwrap())
+    match serde_json::from_str::<Repository>(&text) {
+        Ok(repository) => Ok(repository),
+        Err(e) => Err(IssueParserErr {
+            msg: e.to_string(),
+            kind: ErrKind::Parser,
+        }),
+    }
 }
 
 pub fn print_repo_labels(issues: Vec<Issue>) {

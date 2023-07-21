@@ -1,3 +1,5 @@
+use crate::err::ErrKind;
+use crate::err::IssueParserErr;
 use std::path::Path;
 use structopt::StructOpt;
 
@@ -76,28 +78,44 @@ pub fn check_inputs(
     filename: &str,
     dates: [&str; 2],
     get: &bool,
-) -> Result<(), Box<dyn std::error::Error>> {
+) -> Result<(), IssueParserErr> {
     if !get {
         // Convert the json file to a Path object
         let filepath = Path::new(filepath_str);
 
         // Check if the specified path exists
         if !filepath.exists() {
-            return Err(format!("'{}' does not exist!", filepath.display()).into());
+            let e = IssueParserErr {
+                msg: format!("'{}' does not exist!", filepath.display()),
+                kind: ErrKind::Input,
+            };
+            return Err(e);
         }
 
         // Check if the specified path is a JSON file
         if filepath.extension().and_then(|ext| ext.to_str()) != Some("json") {
-            return Err(format!("'{}' is not a json file!", filepath.display()).into());
+            let e = IssueParserErr {
+                msg: format!("'{}' is not a json file!", filepath.display()),
+                kind: ErrKind::Input,
+            };
+            return Err(e);
         }
     } else if !filepath_str.contains('/') {
-        return Err(format!("'{}' is not a valid GitHub repository.", &filepath_str).into());
+        let e = IssueParserErr {
+            msg: format!("'{}' is not a valid GitHub repository.", &filepath_str),
+            kind: ErrKind::Input,
+        };
+        return Err(e);
     }
 
     // Check if the output filename contains rejectable characters
     for part in filename.split('.') {
         if !part.chars().all(char::is_alphanumeric) {
-            return Err(format!("{}: filename contains special characters.", &filename).into());
+            let e = IssueParserErr {
+                msg: format!("{}: filename contains special characters.", &filename),
+                kind: ErrKind::Input,
+            };
+            return Err(e);
         }
     }
 
@@ -111,21 +129,29 @@ pub fn check_inputs(
             date_num = date.split('-').collect();
 
             if date_num.len() != 3 {
-                return Err(
-                    format!("{}: date is not at the right format (YYYY-MM-DD).", &date).into(),
-                );
+                let e = IssueParserErr {
+                    msg: format!("{}: date is not at the right format (YYYY-MM-DD).", &date),
+                    kind: ErrKind::Input,
+                };
+                return Err(e);
             }
 
             for num in &date_num {
                 if !num.chars().all(char::is_numeric) {
-                    return Err(format!("{}: date contains non-numbers characters.", &date).into());
+                    let e = IssueParserErr {
+                        msg: format!("{}: date contains non-numbers characters.", &date),
+                        kind: ErrKind::Input,
+                    };
+                    return Err(e);
                 }
             }
 
             if (date_num[0].len() != 4) || (date_num[1].len() != 2) || (date_num[2].len() != 2) {
-                return Err(
-                    format!("{}: date is not at the right format (YYYY-MM-DD).", &date).into(),
-                );
+                let e = IssueParserErr {
+                    msg: format!("{}: date is not at the right format (YYYY-MM-DD).", &date),
+                    kind: ErrKind::Input,
+                };
+                return Err(e);
             }
         }
     }

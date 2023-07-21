@@ -32,7 +32,7 @@ fn test_parse_correct_json() -> Result<(), Box<dyn std::error::Error>> {
 fn test_parse_wrong_json() -> Result<(), Box<dyn std::error::Error>> {
     let json_file = Path::new("tests/doc/bogus.json");
 
-    if let Ok(_) = parse_json_input(json_file) {
+    if parse_json_input(json_file).is_ok() {
         panic!("Parser did not catch a wrong json file.")
     }
 

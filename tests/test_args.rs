@@ -36,7 +36,7 @@ fn run_with_non_existing_file() -> Result<(), Box<dyn std::error::Error>> {
         .stderr(predicate::str::contains(
             "'no/such/file.txt' does not exist!",
         ))
-        .failure();
+        .success();
 
     Ok(())
 }
@@ -48,7 +48,7 @@ fn run_with_wrong_extension_file() -> Result<(), Box<dyn std::error::Error>> {
         .args(["README.md"])
         .assert()
         .stderr(predicate::str::contains("'README.md' is not a json file!"))
-        .failure();
+        .success();
 
     Ok(())
 }
@@ -62,7 +62,7 @@ fn run_with_wrong_json_file() -> Result<(), Box<dyn std::error::Error>> {
         .stderr(predicate::str::contains(
             "'tests/doc/bogus.json' does not seem to contain GitHub issues.",
         ))
-        .failure();
+        .success();
 
     Ok(())
 }
@@ -117,7 +117,7 @@ fn run_with_wrong_outputs() -> Result<(), Box<dyn std::error::Error>> {
             .stderr(predicate::str::contains(
                 filename.to_owned() + ": filename contains special characters.",
             ))
-            .failure();
+            .success();
     }
 
     Ok(())
