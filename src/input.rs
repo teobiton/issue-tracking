@@ -1,75 +1,73 @@
 use crate::err::ErrKind;
 use crate::err::IssueParserErr;
+use clap::Parser;
 use std::path::Path;
-use structopt::StructOpt;
 
 /*
-    Defines the inputs supported by the application, using StructOpt.
+    Defines the inputs supported by the application, using clap.
 */
 
-#[derive(StructOpt)]
-#[structopt(
-    name = "issue-tracking",
-    about = "GitHub issues parser and exporter from JSON to csv"
+#[derive(Parser, Debug)]
+#[command(
+    author,
+    version,
+    about,
+    long_about = "GitHub issues parser and exporter from JSON to csv"
 )]
 pub struct Args {
     /// --output=file
-    #[structopt(
-        long = "--output",
-        short = "-o",
+    #[arg(
+        long,
+        short,
         default_value = "out.csv",
         help = "Specify a file to store the csv."
     )]
     pub output: String,
 
     /// --label=label
-    #[structopt(
-        long = "--label",
-        short = "-l",
+    #[arg(
+        long,
+        short,
         default_value = "(all)",
         help = "Filter the issues based on a label."
     )]
     pub label: String,
 
     /// --print-labels
-    #[structopt(long, help = "Print all available labels in the repository.")]
+    #[arg(long, help = "Print all available labels in the repository.")]
     pub print_labels: bool,
 
     /// --start-date=date
-    #[structopt(
-        long = "--start-date",
+    #[arg(
+        long,
         default_value = "(oldest)",
         help = "Only consider issues updated after this date. Format: YYYY-MM-DD"
     )]
     pub start_date: String,
 
     /// --end-date=date
-    #[structopt(
-        long = "--end-date",
+    #[arg(
+        long,
         default_value = "(newest)",
         help = "Only consider issues updated before this date. Format: YYYY-MM-DD"
     )]
     pub end_date: String,
 
     /// --state=state
-    #[structopt(
-        long = "--state",
-        short = "-s",
+    #[arg(
+        long,
+        short,
         default_value = "(any)",
         help = "Only consider issues that have a particular state."
     )]
     pub state: String,
 
     /// -u, --url
-    #[structopt(
-        long = "--get",
-        short = "-g",
-        help = "GET the JSON file from GitHub API."
-    )]
+    #[arg(long, short, help = "GET the JSON file from GitHub API.")]
     pub get: bool,
 
     /// Positional argument
-    #[structopt(help = "Required JSON file link (local or from GitHub API).")]
+    #[arg(help = "Required JSON file link (local or from GitHub API).")]
     pub json: String,
 }
 

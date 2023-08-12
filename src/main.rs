@@ -1,5 +1,5 @@
+use clap::Parser;
 use std::path::Path;
-use structopt::StructOpt;
 
 use issue_tracking::filters::Filters;
 use issue_tracking::get::request_json;
@@ -17,7 +17,7 @@ use issue_tracking::writer::write_csv;
 
 fn main() {
     // Retrieve arguments
-    let args = Args::from_args();
+    let args = Args::parse();
 
     // Convert the json file to a Path object
     let json_file = Path::new(&args.json);

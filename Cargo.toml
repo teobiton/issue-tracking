@@ -11,10 +11,9 @@ licence = "Apache-2.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-structopt = "0.3.26"
 failure = "0.1.8"
-exitfailure = "0.5.1"
 assert_cmd = "1.0.1"
+clap = { version = "4.1.6", features = ["derive"] }
 predicates = "1.0.5"
 csv = "1.2.1"
 serde = "1.0.162"
